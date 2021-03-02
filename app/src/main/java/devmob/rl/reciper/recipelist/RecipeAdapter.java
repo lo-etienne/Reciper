@@ -74,11 +74,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         /**
          * Méthode qui permet d'afficher une recette
          * @param id
-         * @param position
          * @param name
          */
         @Override
-        public void showRecipe(UUID id, int position, String name) {
+        public void showRecipe(UUID id,  String name) {
             this.uuid = id;
             recipeNameTextView.setText(name);
         }

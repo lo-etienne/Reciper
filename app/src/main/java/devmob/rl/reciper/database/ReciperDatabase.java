@@ -9,9 +9,11 @@ import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import devmob.rl.reciper.database.dao.RecipeDao;
+import devmob.rl.reciper.model.Ingredient;
 import devmob.rl.reciper.model.Recipe;
+import devmob.rl.reciper.model.Step;
 
-@Database(entities = {Recipe.class}, version = 1, exportSchema = false)
+@Database(entities = {Recipe.class, Step.class, Ingredient.class}, version = 1, exportSchema = false)
 @TypeConverters({ReciperTypeConverters.class})
 public abstract class ReciperDatabase extends RoomDatabase {
 
