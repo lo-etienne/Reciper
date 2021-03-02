@@ -12,7 +12,6 @@ import android.view.Window;
 import java.util.UUID;
 
 import devmob.rl.reciper.recipeeditor.RecipeEditorFragment;
-import devmob.rl.reciper.recipeeditor.editorfragments.CollectionEditorFragment;
 import devmob.rl.reciper.recipelist.RecipeListFragment;
 import devmob.rl.reciper.recipedisplayer.RecipeDisplayerFragment;
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListFragmen
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.new_recipe) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, CollectionEditorFragment.newInstance()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RecipeEditorFragment()).addToBackStack(null).commit();
         }
         return super.onOptionsItemSelected(item);
     }

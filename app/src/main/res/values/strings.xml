@@ -8,8 +8,4 @@
     <string name="delete_recipe_menu">Delete Recipe</string>
     <string name="edit_recipe_menu">Edit Recipe</string>
     <string name="share_recipe_menu">Share Recipe</string>
-    <string name="description_recipe">Description de la recette</string>
-    <string name="ingredient">Pomme</string>
-    <string name="quantite">Quantite</string>
-    <string name="ingredient_defaut">Ajouter ingredient</string>
 </resources>

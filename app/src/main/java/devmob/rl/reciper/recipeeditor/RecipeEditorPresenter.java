@@ -5,4 +5,5 @@ public class RecipeEditorPresenter {
     public RecipeEditorPresenter() {
 
     }
+
 }
