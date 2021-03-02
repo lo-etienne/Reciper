@@ -80,6 +80,15 @@ public class RecipeRepository {
         });
     }
 
+    public void deleteRecipe(final Recipe recipe) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.delete(recipe);
+            }
+        });
+    }
+
 
 
 }
