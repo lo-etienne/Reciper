@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Reciper</string>
+    <string name="add_recipe_menu">Add Recipe</string>
+    <string name="recipe_name">Nom</string>
+    <string name="recipe_name_edit_text">Nom</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_recipe_menu">Delete Recipe</string>
+    <string name="edit_recipe_menu">Edit Recipe</string>
+    <string name="share_recipe_menu">Share Recipe</string>
+    <string name="description_recipe">Description de la recette</string>
+    <string name="ingredient">Pomme</string>
+    <string name="quantite">Quantite</string>
+    <string name="ingredient_defaut">Ajouter ingredient</string>
 </resources>

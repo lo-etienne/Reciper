@@ -1,30 +1,75 @@
 package devmob.rl.reciper.model;
 
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import java.util.UUID;
+@Entity
 public class Recipe {
 
-    private List<Step> preparationSteps;
-    private List<Step> cookingSteps;
+    @PrimaryKey
+    @NonNull
+    private UUID id;
 
-    private List<Ingredient> ingredientList;
+    private int position;
 
     private String name;
-    private String description;
-    private String priceLevel;
-    private String comment;
-    private String illustration;
-    private int difficulty;
     private int numberOfPersons;
-    private int note;
 
-    public boolean isFavorite;
+    private boolean isFavorite;
 
-    public Recipe(final List<Step> preparationSteps, final List<Step> cookingSteps, final List<Ingredient> ingredientList, final String name, final String description, final String priceLevel, final String comment, final String illustration, final int difficulty, final int numberOfPersons, final int note) {
 
+    public Recipe(final int position) {
+        this.position = position;
+        id = UUID.randomUUID();
+        name = "Nom temporaire";
+        numberOfPersons = 0;
+        isFavorite = false;
     }
 
+    @NonNull
+    public UUID getId() {
+        return id;
+    }
 
+    public void setId(@NonNull final UUID id) {
+        this.id = id;
+    }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getNumberOfPersons() {
+        return numberOfPersons;
+    }
+
+    public void setNumberOfPersons(final int numberOfPersons) {
+        this.numberOfPersons = numberOfPersons;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(final boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    /**
+     *
+     * @param position
+     */
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }
