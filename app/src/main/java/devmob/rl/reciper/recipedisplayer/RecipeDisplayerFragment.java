@@ -1,5 +1,6 @@
 package devmob.rl.reciper.recipedisplayer;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import org.w3c.dom.Text;
 
 import java.util.UUID;
 
+import devmob.rl.reciper.MainActivity;
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.database.repository.RecipeRepository;
 import devmob.rl.reciper.model.Recipe;
@@ -88,5 +91,16 @@ public class RecipeDisplayerFragment extends Fragment implements IRecipeDisplaye
         this.numberOfPersons.setText(numberOfPersons);
         this.time.setText(time);
         this.price.setText(price);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.delete_recipe) {
+            RecipeRepository.getInstance().deleteRecipe(recipeDisplayerPresenter.getRecipe());
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
