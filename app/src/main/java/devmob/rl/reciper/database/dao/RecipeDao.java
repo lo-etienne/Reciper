@@ -14,17 +14,26 @@ import devmob.rl.reciper.model.Recipe;
 @Dao
 public interface RecipeDao {
 
+
+    // SELECT
+
     @Query("SELECT * FROM recipe")
     LiveData<List<Recipe>> getRecipes();
 
     @Query("SELECT * FROM recipe WHERE id = (:uuid)")
     LiveData<Recipe> getRecipe(final UUID uuid);
 
+    // INSERT
+
     @Insert
     void insert(final Recipe recipe);
 
+    // UPDATE
+
     @Update
     void update(final Recipe recipe);
+
+    // DELETE
 
 
 }

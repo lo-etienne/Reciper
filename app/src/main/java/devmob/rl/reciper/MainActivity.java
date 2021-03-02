@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.ActionBar;
+import android.app.ActivityManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
 
 import java.util.UUID;
 
+import devmob.rl.reciper.database.ReciperTypeConverters;
+import devmob.rl.reciper.database.repository.RecipeRepository;
+import devmob.rl.reciper.model.Recipe;
 import devmob.rl.reciper.recipeeditor.RecipeEditorFragment;
 import devmob.rl.reciper.recipelist.RecipeListFragment;
 import devmob.rl.reciper.recipedisplayer.RecipeDisplayerFragment;
@@ -19,6 +24,18 @@ public class MainActivity extends AppCompatActivity implements RecipeListFragmen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*
+        Recipe recipe = new Recipe();
+        recipe.setName("Poulet au paprika");
+        recipe.setNumberOfPersons(10);
+        recipe.setDescription("Poulet au paprika avec pommes de terre et brocolis");
+        Recipe recipe2 = new Recipe();
+        recipe2.setName("Avocat fourré au saumon");
+        recipe2.setNumberOfPersons(5);
+        recipe2.setDescription("Avocat fourré au saumon avec de la semoule");
+        RecipeRepository.getInstance().insertRecipe(recipe);
+        RecipeRepository.getInstance().insertRecipe(recipe2);
+         */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -26,6 +43,15 @@ public class MainActivity extends AppCompatActivity implements RecipeListFragmen
         if(currentFragment == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, RecipeListFragment.newInstance()).commit();
         }
+    }
+
+    /**
+     * Méthode qui permet de switch d'activité
+     */
+    private void swicthActivities(final UUID recipeId) {
+        Intent switchActivityIntent = new Intent(this, RecipeDisplayerActivity.class);
+        switchActivityIntent.putExtra("recipeId", recipeId.toString());
+        startActivity(switchActivityIntent);
     }
 
     @Override
@@ -38,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListFragmen
 
     @Override
     public void onSelectedRecipe(UUID recipeId) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, RecipeDisplayerFragment.newInstance()).addToBackStack(null).commit();
+        swicthActivities(recipeId);
+        // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, RecipeDisplayerFragment.newInstance(recipeId)).addToBackStack(null).commit();
     }
 }

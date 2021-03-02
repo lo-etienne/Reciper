@@ -43,7 +43,7 @@ public class RecipeListPresenter {
      * @return
      */
     public UUID addRecipe() {
-        Recipe recipe = new Recipe(this.getItemCount() + 1);
+        Recipe recipe = new Recipe();
         RecipeRepository.getInstance().insertRecipe(recipe);
         return recipe.getId();
     }
@@ -55,7 +55,7 @@ public class RecipeListPresenter {
      */
     public void showRecipeOn(IRecipeItemScreen holder, final int position) {
         Recipe recipe = recipeList.get(position);
-        holder.showRecipe(recipe.getId(), recipe.getPosition(), recipe.getName());
+        holder.showRecipe(recipe.getId(), recipe.getName());
     }
 
     /**
