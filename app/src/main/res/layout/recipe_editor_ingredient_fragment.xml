@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,13 +10,15 @@
         android:id="@+id/ingredient_field"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
         android:id="@+id/ingredient_field_name"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:text="@string/ingredient_defaut"
+        android:hint="@string/ingredient_defaut"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="4dp"
@@ -26,7 +29,7 @@
             android:id="@+id/ingredient_field_quantite"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:text="@string/quantite"
+            android:hint="@string/quantite"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="4dp"
@@ -34,10 +37,10 @@
             app:layout_constraintTop_toBottomOf="@+id/ingredient_field_name"/>
 
     </LinearLayout>
-    <Button
+    <ImageButton
         android:id="@+id/add_ingredient"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
@@ -45,5 +48,18 @@
         android:background="@drawable/ic_add_menu"
         app:layout_constraintStart_toEndOf="@id/ingredient_field"
         app:layout_constraintTop_toTopOf="@+id/ingredient_field"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list_ingredient"
+        android:name="devmob.rl.reciper.recipeeditor.editorfragments.IngredientFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".recipeeditor.editorfragments.Ingredient.IngredientFragment"
+        tools:listitem="@layout/fragment_ingredient_item_list"
+        app:layout_constraintTop_toBottomOf="@+id/ingredient_field"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,12 +11,39 @@
     android:layout_marginBottom="2dp">
 
     <TextView
-        android:id="@+id/ingredient"
+        android:id="@+id/type_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="@string/ingredient"
+        android:text="@string/type_step"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/id_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/num_step"
+        app:layout_constraintStart_toEndOf="@+id/type_step"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/step"
+        app:layout_constraintStart_toEndOf="@+id/id_step"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/duration_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/duration_step"
+        app:layout_constraintStart_toEndOf="@+id/step"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton

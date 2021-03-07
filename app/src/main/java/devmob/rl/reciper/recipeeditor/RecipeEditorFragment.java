@@ -21,6 +21,7 @@ import devmob.rl.reciper.database.repository.RecipeRepository;
 public class RecipeEditorFragment extends Fragment {
 
     private RecipeEditorViewModel mViewModel;
+    private RecipeEditorPresenter presenter;
 
     public static RecipeEditorFragment newInstance() {
         return new RecipeEditorFragment();
@@ -29,6 +30,7 @@ public class RecipeEditorFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
     }
 
@@ -36,6 +38,12 @@ public class RecipeEditorFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.recipe_editor_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        
     }
 
     @Override

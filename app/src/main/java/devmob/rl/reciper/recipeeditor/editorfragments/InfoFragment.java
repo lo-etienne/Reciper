@@ -12,9 +12,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 
 public class InfoFragment extends Fragment {
     public static final String TITLE = "Information";
+    private RecipeEditorPresenter presenter;
+
+    public InfoFragment(RecipeEditorPresenter presenter){
+        this.presenter = presenter;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -28,5 +34,11 @@ public class InfoFragment extends Fragment {
         np.setMinValue(1);
         np.setMaxValue(100);
         Bundle args = getArguments();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //presenter.setInfoFragment();
     }
 }

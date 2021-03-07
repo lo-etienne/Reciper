@@ -1,4 +1,4 @@
-package devmob.rl.reciper.recipeeditor.editorfragments;
+package devmob.rl.reciper.recipeeditor.editorfragments.collection;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,11 +13,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 
 public class CollectionEditorFragment extends Fragment {
 
     private CollectionEditorPagerAdapter collection;
     private ViewPager viewPager;
+    private RecipeEditorPresenter presenter;
 
     @Nullable
     @Override
@@ -27,8 +29,10 @@ public class CollectionEditorFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        presenter = new RecipeEditorPresenter();
         TabLayout tab = view.findViewById(R.id.tab_layout);
-        collection = new CollectionEditorPagerAdapter(getChildFragmentManager());
+        //avant -> collection = new CollectionEditorPagerAdapter(getChildFragmentManager());
+        collection = new CollectionEditorPagerAdapter(getChildFragmentManager(),presenter);
         viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(collection);
         tab.setupWithViewPager(this.viewPager);

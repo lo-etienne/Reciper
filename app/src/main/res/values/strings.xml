@@ -8,4 +8,16 @@
     <string name="delete_recipe_menu">Delete Recipe</string>
     <string name="edit_recipe_menu">Edit Recipe</string>
     <string name="share_recipe_menu">Share Recipe</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="description_recipe">Description de la recette</string>
+    <string name="ingredient_defaut">Nom de l\'ingredient</string>
+    <string name="quantite">Quantite de l\'ingredient</string>
+    <string name="vide"></string>
+    <string name="commentaire">Des commentaires a propos de la recette</string>
+    <string name="step">etape</string>
+    <string name="type_step">Preparation</string>
+    <string name="num_step">1</string>
+    <string name="duration_step">20</string>
+    <string name="duration_default">La durre de l\'etape en min</string>
+    <string name="step_default">Decrire l\'etape</string>
 </resources>

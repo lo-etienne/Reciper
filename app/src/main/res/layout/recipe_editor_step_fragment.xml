@@ -1,13 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/step_field"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/step_description"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="4dp"
+            android:hint="@string/step_default"
+            android:inputType="text"
+            app:layout_constraintTop_toBottomOf="@+id/step_field_name"
+            app:layout_goneMarginRight="16dp" />
+
+        <EditText
+            android:id="@+id/step_duration"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/duration_default"
+            android:inputType="time"/>
+        <RadioGroup
+            android:id="@+id/button_type_step"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_buttom_cuisson"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Cuisson"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/radio_buttom_preparation"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Preparation"/>
+        </RadioGroup>
+
+    </LinearLayout>
+    <ImageButton
+        android:id="@+id/add_step"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        app:layout_goneMarginRight="16dp"
+        android:background="@drawable/ic_add_menu"
+        app:layout_constraintStart_toEndOf="@id/step_field"
+        app:layout_constraintTop_toTopOf="@+id/step_field"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list_step"
+        android:name="devmob.rl.reciper.recipeeditor.editorfragments.IngredientFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pomme"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".recipeeditor.editorfragments.Ingredient.IngredientFragment"
+        tools:listitem="@layout/fragment_step_item_list"
+        app:layout_constraintTop_toBottomOf="@+id/step_field"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
