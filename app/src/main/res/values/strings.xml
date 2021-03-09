@@ -18,6 +18,9 @@
     <string name="type_step">Preparation</string>
     <string name="num_step">1</string>
     <string name="duration_step">20</string>
-    <string name="duration_default">La durre de l\'etape en min</string>
+    <string name="duration_default">Durree (en min)</string>
     <string name="step_default">Decrire l\'etape</string>
+    <string name="validation">validation</string>
+    <string name="numero_step">numero</string>
+    <string name="note">Une note de 1 a 5</string>
 </resources>

@@ -7,18 +7,23 @@ import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import devmob.rl.reciper.model.Ingredient;
 import devmob.rl.reciper.model.Step;
-import devmob.rl.reciper.recipeeditor.editorfragments.Ingredient.IIngredientList;
+import devmob.rl.reciper.recipeeditor.editorfragments.IPublisher;
+import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 
-public class StepPresenter {
+public class StepPresenter implements IPublisher {
 
     private List<Step> list;
     private IStepList screen;
+    private RecipeEditorPresenter presenter;
 
-    public StepPresenter(IStepList screen){
+    public StepPresenter(IStepList screen, RecipeEditorPresenter presenter){
         this.screen = screen;
         this.list = new ArrayList<>();
+        this.presenter = presenter;
     }
 
     public void loadStep() {
@@ -32,8 +37,8 @@ public class StepPresenter {
         });
     }
 
-    public void addStep(String description){
-        list.add(new Step(description));
+    public void addStep(final int num, final String description,  final int duration){
+        list.add(new Step(presenter.getRecipeUUID(),num,description,duration));
         screen.loadView();
     }
 
@@ -47,5 +52,21 @@ public class StepPresenter {
             return 0;
         }
         return list.size();
+    }
+
+    @Override
+    public void publish() {
+        presenter.setStepList(list);
+    }
+
+    public void suppStep(UUID uuid){
+        Step i = null;
+        for (Step step:list) {
+            if(step.getUuid() == uuid) {
+                i = step;
+            }
+        }
+        if(!(i == null))list.remove(i);
+        screen.loadView();
     }
 }

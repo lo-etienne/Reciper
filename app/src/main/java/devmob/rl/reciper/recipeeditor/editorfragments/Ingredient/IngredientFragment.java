@@ -11,18 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import java.util.UUID;
+
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.recipeeditor.IFragmentPusher;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 
 /**
  * A fragment representing a list of Items.
  */
-public class IngredientFragment extends Fragment implements View.OnClickListener, IIngredientList{
+public class IngredientFragment extends Fragment implements View.OnClickListener, IIngredientList, IFragmentPusher {
 
     public static final String TITLE = "Ingredient";
     private View view;
@@ -51,8 +55,7 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter = new IngredientPresenter();
-        presenter.setScreen(this);
+        presenter = new IngredientPresenter(this, editorPresenter);
         presenter.loadIngredient();
 
         ImageButton buttonAdd = (ImageButton) view.findViewById(R.id.add_ingredient);
@@ -70,11 +73,17 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
         switch(v.getId())
         {
             case R.id.add_ingredient :
+                EditText ed;
 
-                String ingredient = view.findViewById(R.id.ingredient_field_name).toString();
-                String quantity = view.findViewById(R.id.ingredient_field_quantite).toString();
+                //extraire et mettre dans une variable le contenue de l'edit text
+                ed = (EditText)view.findViewById(R.id.ingredient_field_name);
+                String ingredient = ed.getText().toString();
+
+                ed = (EditText)view.findViewById(R.id.ingredient_field_quantite);
+                String quantity = ed.getText().toString();
+
                 presenter.addIngredient(ingredient,quantity);
-                Log.d("1","test");
+                Log.d("1","addIngredient du presenter appele du onClick");
                 break;
         }
     }
@@ -82,5 +91,20 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     @Override
     public void loadView() {
         recyclerView.setAdapter(new IngredientAdapter(presenter));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.validation_button){
+            presenter.publish();
+            Log.d("1", "passage ds onOptionsItemSelected ingredientFragment");
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void push() {
+        presenter.publish();
+        Log.d("1", "passage ds push ds ingredientFragment");
     }
 }
