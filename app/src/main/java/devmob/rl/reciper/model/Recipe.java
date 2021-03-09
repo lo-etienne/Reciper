@@ -47,7 +47,8 @@ public class Recipe {
 
     @Ignore
     public Recipe(final String name, final String description, final String difficulty, final String price, final int numberOfPersons, final int note,
-                  final String comment, final List<Ingredient> ingredientList,final List<Step> stepList, final int duration){
+                  final String comment, final List<Ingredient> ingredientList, final List<Step> stepList, final int duration){
+        id = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;

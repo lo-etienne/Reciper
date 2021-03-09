@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -173,3 +178,4 @@
         android:layout_margin="5dp"
         app:layout_constraintTop_toBottomOf="@+id/note_text"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

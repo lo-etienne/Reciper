@@ -62,34 +62,6 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
         inflater.inflate(R.menu.recipe_editor_fragment,menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.validation_button){
-            EditText ed;
-
-            ed = (EditText)view.findViewById(R.id.nom_recette);
-            String nom = ed.getText().toString();
-            ed = (EditText)view.findViewById(R.id.description_contenu);
-            String description = ed.getText().toString();
-            ed = (EditText)view.findViewById(R.id.commentaire_contenu);
-            String commentaire = ed.getText().toString();
-
-            RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.layout_difficulte);
-            int id_dif = radioGroup.getCheckedRadioButtonId();
-            radioGroup = (RadioGroup) view.findViewById(R.id.layout_prix);
-            int id_price = radioGroup.getCheckedRadioButtonId();
-
-            NumberPicker np = (NumberPicker) view.findViewById(R.id.picker_nb_personne);
-            int numberPerson = np.getValue();
-            np = (NumberPicker) view.findViewById(R.id.picker_note);
-            int note = np.getValue();
-
-            presenter.setInfoFragment(nom,getDifficulty(id_dif),getPrice(id_price),numberPerson,description,commentaire,note);
-            Log.d("1", "passage ds onOptionsItemSelected infofragment");
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private String getDifficulty(int id){
         if(id == R.id.facile) return "facile";
         if(id == R.id.moyen) return "moyen";

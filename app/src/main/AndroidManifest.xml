@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RecipeDisplayerActivity"></activity>
+        <activity android:name=".RecipeEditorActivity"></activity>
     </application>
 
 </manifest>

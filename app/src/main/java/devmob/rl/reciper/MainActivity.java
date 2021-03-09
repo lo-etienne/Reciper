@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements RecipeListFragmen
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.new_recipe) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, RecipeCollectionEditorFragment.newInstance()).addToBackStack(null).commit();
+            //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, RecipeCollectionEditorFragment.newInstance()).addToBackStack(null).commit();
+            Intent switchActivityIntent = new Intent(this, RecipeEditorActivity.class);
+            startActivity(switchActivityIntent);
         }
         return super.onOptionsItemSelected(item);
     }

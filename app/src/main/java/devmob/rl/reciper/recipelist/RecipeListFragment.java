@@ -123,7 +123,7 @@ public class  RecipeListFragment extends Fragment implements IRecipeListScreen {
         inflater.inflate(R.menu.fragment_recipe_list, menu);
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.new_recipe) {
             recipeListPresenter.addRecipe();
@@ -132,4 +132,6 @@ public class  RecipeListFragment extends Fragment implements IRecipeListScreen {
         }
         return super.onOptionsItemSelected(item);
     }
+
+     */
 }
