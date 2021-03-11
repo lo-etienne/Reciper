@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import androidx.fragment.app.Fragment;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.recipeeditor.IFragmentPusher;
@@ -44,7 +46,6 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
     private static final String[] CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA};
     private static final int CAMERA_REQUEST_CODE = 10;
     public static final String TITLE = "Information";
-    private static final int RESULT_OK = 1;
     private View view;
     private RecipeEditorPresenter presenter;
     private final boolean newRecipe;
@@ -190,6 +191,7 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
         );
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+        Log.d("1",currentPhotoPath);
         return image;
     }
 
@@ -198,8 +200,7 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go
-            //File photoFile = new File(Environment.getExternalStorageDirectory(), "photo.jpg");
-            File photoFile = null;
+            File photoFile = new File(Environment.getExternalStorageDirectory(), "photo.jpg");
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
@@ -211,18 +212,19 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                super.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                Log.d("1", "dispatchTakePictureIntent appeler");
             }
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
             ImageView image = view.findViewById(R.id.container);
-            image.setImageBitmap(imageBitmap);
+            image.setImageURI(Uri.fromFile(new File(currentPhotoPath)));
+            Log.d("1", "onActivityResult appeler condition");
         }
+        Log.d("1", "onActivityResult appeler");
     }
 }

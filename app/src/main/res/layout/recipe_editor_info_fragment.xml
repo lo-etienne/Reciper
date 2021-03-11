@@ -185,12 +185,10 @@
         app:layout_constraintTop_toBottomOf="@+id/picker_note">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:id="@+id/container"
-            android:layout_gravity="center"
-            android:gravity="center">
+            android:src="@drawable/ic_recipe_illustration_background">
         </ImageView>
-
         <Button
             android:id="@+id/button_photo"
             android:layout_width="match_parent"
