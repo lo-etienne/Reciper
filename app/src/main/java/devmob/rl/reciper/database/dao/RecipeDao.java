@@ -11,6 +11,7 @@ import androidx.room.Update;
 import java.util.List;
 import java.util.UUID;
 
+import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndIngredients;
 import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndSteps;
 import devmob.rl.reciper.model.Ingredient;
 import devmob.rl.reciper.model.Recipe;
@@ -30,7 +31,11 @@ public interface RecipeDao {
 
     @Transaction
     @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
-    LiveData<RecipeAndSteps> getStepsByArtistId(final UUID uuid);
+    LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid);
+
+    @Transaction
+    @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
+    LiveData<RecipeAndIngredients> getIngredientsByRecipeId(final UUID uuid);
 
     // INSERT
 

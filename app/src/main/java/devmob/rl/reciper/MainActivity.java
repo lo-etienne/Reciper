@@ -18,7 +18,6 @@ import devmob.rl.reciper.database.repository.RecipeRepository;
 import devmob.rl.reciper.model.Recipe;
 import devmob.rl.reciper.recipeeditor.RecipeEditorFragment;
 import devmob.rl.reciper.recipelist.RecipeListFragment;
-import devmob.rl.reciper.recipedisplayer.RecipeDisplayerFragment;
 
 public class MainActivity extends AppCompatActivity implements RecipeListFragment.ISelectRecipe {
 

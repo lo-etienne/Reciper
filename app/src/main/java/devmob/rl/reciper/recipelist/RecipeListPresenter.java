@@ -45,7 +45,7 @@ public class RecipeListPresenter {
     public UUID addRecipe() {
         Recipe recipe = new Recipe();
         RecipeRepository.getInstance().insertRecipe(recipe);
-        return recipe.getId();
+        return recipe.getRecipeId();
     }
 
     /**
@@ -55,7 +55,7 @@ public class RecipeListPresenter {
      */
     public void showRecipeOn(IRecipeItemScreen holder, final int position) {
         Recipe recipe = recipeList.get(position);
-        holder.showRecipe(recipe.getId(), recipe.getName());
+        holder.showRecipe(recipe.getRecipeId(), recipe.getName());
     }
 
     /**

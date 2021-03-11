@@ -7,15 +7,20 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import devmob.rl.reciper.database.repository.RecipeRepository;
+
 @Entity
 public class Recipe {
 
     @PrimaryKey
     @NonNull
-    private UUID id;
+    private UUID recipeId;
 
     private String name;
     private String description;
+    private String time;
+    private String price;
     private String difficulty;
     private int numberOfPersons;
     private int note;
@@ -32,25 +37,29 @@ public class Recipe {
 
 
     public Recipe() {
-        id = UUID.randomUUID();
-        name = "Nom temporaire";
-        difficulty = "Facile";
-        numberOfPersons = 0;
-        note = 5;
-        comment = "Commentaire";
+        recipeId = UUID.randomUUID();
+        name = "Nom de la recette";
+        description = "Ceci est une description";
+        difficulty = "Difficile";
+        time = "10h";
+        numberOfPersons = 10;
+        note = 2;
+        price = "Cher";
+        comment = "Ceci est un commentaire";
         ingredientList = new ArrayList<>();
         stepList = new ArrayList<>();
         illustrationUrl = "url/directory1/directory2.png";
         isFavorite = false;
+
     }
 
     @NonNull
-    public UUID getId() {
-        return id;
+    public UUID getRecipeId() {
+        return recipeId;
     }
 
-    public void setId(@NonNull final UUID id) {
-        this.id = id;
+    public void setRecipeId(@NonNull UUID recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getName() {
@@ -101,6 +110,22 @@ public class Recipe {
         this.comment = comment;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     public List<Ingredient> getIngredientList() {
         return ingredientList;
     }
@@ -134,6 +159,4 @@ public class Recipe {
     public void setFavorite(final boolean favorite) {
         isFavorite = favorite;
     }
-
-
 }

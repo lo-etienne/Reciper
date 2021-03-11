@@ -14,9 +14,12 @@ public class Step {
     private UUID uuid;
     private String description;
 
-    public Step(final String description) {
+    private UUID recipeContainerId;
+
+    public Step(final String description, final UUID recipeContainerId) {
         uuid = UUID.randomUUID();
         this.description = description;
+        this.recipeContainerId = recipeContainerId;
     }
 
     public UUID getUuid() {
@@ -25,6 +28,14 @@ public class Step {
 
     public void setUuid(@NonNull final UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public UUID getRecipeContainerId() {
+        return recipeContainerId;
+    }
+
+    public void setRecipeContainerId(UUID recipeContainerId) {
+        this.recipeContainerId = recipeContainerId;
     }
 
     public String getDescription() {

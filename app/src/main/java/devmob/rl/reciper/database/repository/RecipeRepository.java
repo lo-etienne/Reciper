@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndIngredients;
 import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndSteps;
 import devmob.rl.reciper.database.ReciperDatabase;
 import devmob.rl.reciper.database.dao.RecipeDao;
@@ -64,14 +65,25 @@ public class RecipeRepository {
     }
 
     /**
-     * Méthode qui permet d'obtenir, depuis la DB, l'ensemble des étapes d'une recett
+     * Méthode qui permet d'obtenir, depuis la DB, l'ensemble des étapes d'une recette
      * grâce à l'id de cette dernière
      *
      * @param uuid
      * @return
      */
     public LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid) {
-        return recipeDao.getStepsByArtistId(uuid);
+        return recipeDao.getStepsByRecipeId(uuid);
+    }
+
+    /**
+     * Méthode qui permet d'obtenir, depuis la DB, l'ensemble des ingrédients d'une recette
+     * grâce à l'id de cette dernière
+     *
+     * @param uuid
+     * @return
+     */
+    public LiveData<RecipeAndIngredients> getIngredientsByRecipeId(final UUID uuid) {
+        return recipeDao.getIngredientsByRecipeId(uuid);
     }
 
     /**

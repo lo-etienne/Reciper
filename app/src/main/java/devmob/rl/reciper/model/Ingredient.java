@@ -15,10 +15,14 @@ public class Ingredient {
     private String name;
     private String quantity;
 
-    public Ingredient(final String name, final String quantity) {
+    private UUID recipeContainerId;
+
+
+    public Ingredient(final UUID recipeContainerId, final String name, final String quantity) {
         uuid = UUID.randomUUID();
         this.name = name;
         this.quantity = quantity;
+        this.recipeContainerId = recipeContainerId;
     }
 
     @NonNull
@@ -28,6 +32,14 @@ public class Ingredient {
 
     public void setUuid(@NonNull final UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public UUID getRecipeContainerId() {
+        return recipeContainerId;
+    }
+
+    public void setRecipeContainerId(UUID recipeContainerId) {
+        this.recipeContainerId = recipeContainerId;
     }
 
     public String getName() {
