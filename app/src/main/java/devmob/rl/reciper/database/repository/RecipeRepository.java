@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndIngredients;
 import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndSteps;
 import devmob.rl.reciper.database.ReciperDatabase;
 import devmob.rl.reciper.database.dao.RecipeDao;
@@ -72,6 +73,10 @@ public class RecipeRepository {
      */
     public LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid) {
         return recipeDao.getStepsByArtistId(uuid);
+    }
+
+    public LiveData<RecipeAndIngredients> getIngredientByRecipeId(final UUID uuid){
+        return recipeDao.getIngredientByArtistId(uuid);
     }
 
     /**

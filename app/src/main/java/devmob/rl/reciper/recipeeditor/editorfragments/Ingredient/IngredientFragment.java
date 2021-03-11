@@ -33,9 +33,11 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     private IngredientPresenter presenter;
     private RecyclerView recyclerView;
     private RecipeEditorPresenter editorPresenter;
+    private final boolean newRecipe;
 
-    public IngredientFragment(RecipeEditorPresenter presenter){
+    public IngredientFragment(final RecipeEditorPresenter presenter,final boolean newRecipe){
         this.editorPresenter = presenter;
+        this.newRecipe = newRecipe;
     }
 
     @Override

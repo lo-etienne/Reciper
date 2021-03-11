@@ -17,6 +17,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.UUID;
+
 import devmob.rl.reciper.MainActivity;
 import devmob.rl.reciper.R;
 
@@ -26,6 +28,16 @@ public class RecipeCollectionEditorFragment extends Fragment {
     private ViewPager viewPager;
     private RecipeEditorPresenter presenter;
     private View view;
+    private final boolean newRecipe;
+
+    public RecipeCollectionEditorFragment(){
+        newRecipe = true;
+        presenter = new RecipeEditorPresenter();
+    }
+    public RecipeCollectionEditorFragment(UUID uuid){
+        newRecipe = false;
+        presenter = new RecipeEditorPresenter(uuid);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,18 +54,20 @@ public class RecipeCollectionEditorFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        presenter = new RecipeEditorPresenter();
+        //presenter = new RecipeEditorPresenter();
         TabLayout tab = view.findViewById(R.id.tab_layout);
-        //avant -> collection = new CollectionEditorPagerAdapter(getChildFragmentManager());
-        collection = new RecipeCollectionEditorPagerAdapter(getChildFragmentManager(),presenter);
+        collection = new RecipeCollectionEditorPagerAdapter(getChildFragmentManager(),presenter,newRecipe);
         viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(collection);
         tab.setupWithViewPager(this.viewPager);
     }
 
     public static RecipeCollectionEditorFragment newInstance() {
-
         RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment();
+        return fragment;
+    }
+    public static RecipeCollectionEditorFragment newInstance(UUID uuid) {
+        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(uuid);
         return fragment;
     }
 

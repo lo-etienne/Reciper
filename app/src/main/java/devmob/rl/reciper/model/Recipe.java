@@ -24,30 +24,12 @@ public class Recipe {
     private String comment;
     private int duration;//en min
 
-    private List<Ingredient> ingredientList;
-    private List<Step> stepList;
-
     private String illustrationUrl;
 
     private boolean isFavorite;
 
-    public Recipe() {
-        id = UUID.randomUUID();
-        name = "Nom temporaire";
-        difficulty = "Facile";
-        price = "cher";
-        numberOfPersons = 0;
-        note = 5;
-        comment = "Commentaire";
-        ingredientList = new ArrayList<>();
-        stepList = new ArrayList<>();
-        illustrationUrl = "url/directory1/directory2.png";
-        isFavorite = false;
-    }
-
-    @Ignore
     public Recipe(final String name, final String description, final String difficulty, final String price, final int numberOfPersons, final int note,
-                  final String comment, final List<Ingredient> ingredientList, final List<Step> stepList, final int duration){
+                  final String comment, final int duration){
         id = UUID.randomUUID();
         this.name = name;
         this.description = description;
@@ -56,8 +38,6 @@ public class Recipe {
         this.numberOfPersons = numberOfPersons;
         this.note = note;
         this.comment = comment;
-        this.ingredientList = ingredientList;
-        this.stepList = stepList;
         this.duration = duration;
     }
 
@@ -109,22 +89,6 @@ public class Recipe {
     }
     public void setComment(final String comment) {
         this.comment = comment;
-    }
-
-    public List<Ingredient> getIngredientList() {
-        return ingredientList;
-    }
-    public void setIngredientList(final List<Ingredient> ingredientList) {
-        this.ingredientList.clear();
-        this.ingredientList.addAll(ingredientList);
-    }
-
-    public List<Step> getStepList() {
-        return stepList;
-    }
-    public void setStepList(final List<Step> stepList) {
-        this.stepList.clear();
-        this.stepList.addAll(stepList);
     }
 
     public String getIllustrationUrl() {

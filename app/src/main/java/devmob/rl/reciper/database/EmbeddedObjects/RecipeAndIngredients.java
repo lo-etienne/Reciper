@@ -17,7 +17,7 @@ public class RecipeAndIngredients {
     @Embedded
     public Recipe recipe;
     @Relation(
-            parentColumn = "recipeId",
+            parentColumn = "id",
             entityColumn = "recipeContainerId"
     )
     private List<Ingredient> ingredients;

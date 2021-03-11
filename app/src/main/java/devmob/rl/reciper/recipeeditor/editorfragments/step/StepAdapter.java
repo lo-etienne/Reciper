@@ -70,7 +70,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            if(v.getId() == R.id.button_delete_ingredient) {
+            if(v.getId() == R.id.button_delete_step) {
                 Log.d("1","button_delete_ingredient d'un ingredient appeler");
                 presenter.suppStep(uuid_step);
             }

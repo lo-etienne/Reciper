@@ -27,9 +27,11 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
     private StepPresenter presenter;
     private RecyclerView recyclerView;
     private RecipeEditorPresenter editorPresenter;
+    private final boolean newRecipe;
 
-    public StepFragment(RecipeEditorPresenter presenter){
+    public StepFragment(RecipeEditorPresenter presenter,boolean newRecipe){
         this.editorPresenter = presenter;
+        this.newRecipe = newRecipe;
     }
 
     @Override
@@ -51,8 +53,6 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         presenter = new StepPresenter(this, editorPresenter);
         presenter.loadStep();
-        Bundle args = getArguments();
-
         ImageButton buttonAdd = (ImageButton) view.findViewById(R.id.add_step);
         buttonAdd.setOnClickListener(this);
     }

@@ -17,14 +17,12 @@ import devmob.rl.reciper.recipeeditor.editorfragments.step.StepFragment;
 public class RecipeCollectionEditorPagerAdapter extends FragmentStatePagerAdapter {
     private RecipeEditorPresenter presenter;
     private List<IFragmentPusher> list = new ArrayList<>();
+    private final boolean newRecipe;
 
-    public RecipeCollectionEditorPagerAdapter(@NonNull FragmentManager fm) {
-        super(fm);
-    }
-
-    public RecipeCollectionEditorPagerAdapter(@NonNull FragmentManager fm, RecipeEditorPresenter presenter) {
+    public RecipeCollectionEditorPagerAdapter(@NonNull FragmentManager fm, RecipeEditorPresenter presenter,boolean newRecipe) {
         super(fm);
         this.presenter = presenter;
+        this.newRecipe = newRecipe;
     }
 
     @NonNull
@@ -35,19 +33,19 @@ public class RecipeCollectionEditorPagerAdapter extends FragmentStatePagerAdapte
         switch (position){
             case 0:
                 args.putInt(InfoFragment.TITLE, position + 1);
-                fragment = new InfoFragment(presenter);
+                fragment = new InfoFragment(presenter,newRecipe);
                 fragment.setArguments(args);
                 list.add((IFragmentPusher) fragment);
                 return fragment;
             case 1:
                 args.putInt(IngredientFragment.TITLE, position + 1);
-                fragment = new IngredientFragment(presenter);
+                fragment = new IngredientFragment(presenter,newRecipe);
                 fragment.setArguments(args);
                 list.add((IFragmentPusher) fragment);
                 return fragment;
             case 2:
                 args.putInt(StepFragment.TITLE, position + 1);
-                fragment = new StepFragment(presenter);
+                fragment = new StepFragment(presenter,newRecipe);
                 fragment.setArguments(args);
                 list.add((IFragmentPusher) fragment);
                 return fragment;

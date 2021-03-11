@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.util.UUID;
 
 @Entity
-public class Step {
+public class Step implements Comparable<Step>{
 
     @PrimaryKey
     @NonNull
@@ -45,4 +45,9 @@ public class Step {
 
     public UUID getRecipeContainerId() { return recipeContainerId; }
     public void setRecipeContainerId(UUID recipeContainerId) { this.recipeContainerId = recipeContainerId; }
+
+    @Override
+    public int compareTo(Step o) {
+        return (this.num - o.getNum());
+    }
 }

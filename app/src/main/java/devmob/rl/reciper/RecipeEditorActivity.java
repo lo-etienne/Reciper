@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import java.util.UUID;
+
 import devmob.rl.reciper.recipeeditor.RecipeCollectionEditorFragment;
 
 public class RecipeEditorActivity extends AppCompatActivity {
@@ -20,4 +22,9 @@ public class RecipeEditorActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_editor, RecipeCollectionEditorFragment.newInstance()).commit();
         }
     }
+
+    private UUID retrieveUuid() {
+        return UUID.fromString(getIntent().getStringExtra("recipeId"));
+    }
+    //TODO : mettre une photo ds info, ajouter un trie au list de step, modifier la class RecipeEditorFragment pour recupere les info d'une recette
 }

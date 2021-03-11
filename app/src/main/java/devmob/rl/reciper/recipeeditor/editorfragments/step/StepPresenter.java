@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,17 +29,20 @@ public class StepPresenter implements IPublisher {
 
     public void loadStep() {
         Log.d("IngredientListPresenter", "loadIngredient");
-        LiveData<List<Step>> ingredient = new LiveData<List<Step>>() {};
+        LiveData<List<Step>> ingredient = new LiveData<List<Step>>(presenter.getListStep()) {};
         ingredient.observeForever(new Observer<List<Step>>() {
             @Override
             public void onChanged(List<Step> ingredients) {
                 StepPresenter.this.list = ingredients;
             }
         });
+        Collections.sort(list);
+        screen.loadView();
     }
 
     public void addStep(final int num, final String description,  final int duration){
         list.add(new Step(presenter.getRecipeUUID(),num,description,duration));
+        Collections.sort(list);
         screen.loadView();
     }
 
@@ -57,6 +61,10 @@ public class StepPresenter implements IPublisher {
     @Override
     public void publish() {
         presenter.setStepList(list);
+    }
+
+    public void setList(List<Step> list) {
+        this.list = presenter.getListStep();
     }
 
     public void suppStep(UUID uuid){

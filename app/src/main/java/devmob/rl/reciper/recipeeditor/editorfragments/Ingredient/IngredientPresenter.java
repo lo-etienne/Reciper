@@ -28,13 +28,14 @@ public class IngredientPresenter implements IPublisher {
 
     public void loadIngredient() {
         Log.d("IngredientListPresenter", "loadIngredient");
-        LiveData<List<Ingredient>> ingredient = new LiveData<List<Ingredient>>() {};
+        LiveData<List<Ingredient>> ingredient = new LiveData<List<Ingredient>>(presenter.getListIngredient()) {};
         ingredient.observeForever(new Observer<List<Ingredient>>() {
             @Override
             public void onChanged(List<Ingredient> ingredients) {
                 IngredientPresenter.this.list = ingredients;
             }
         });
+        screen.loadView();
     }
 
     public void addIngredient(String name, String quantity){
