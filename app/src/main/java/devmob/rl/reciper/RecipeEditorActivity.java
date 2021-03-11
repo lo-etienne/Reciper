@@ -26,5 +26,4 @@ public class RecipeEditorActivity extends AppCompatActivity {
     private UUID retrieveUuid() {
         return UUID.fromString(getIntent().getStringExtra("recipeId"));
     }
-    //TODO : mettre une photo ds info, ajouter un trie au list de step, modifier la class RecipeEditorFragment pour recupere les info d'une recette
 }

@@ -1,8 +1,12 @@
 package devmob.rl.reciper.recipeeditor.editorfragments;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,10 +40,11 @@ import devmob.rl.reciper.recipeeditor.IFragmentPusher;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 
 public class InfoFragment extends Fragment implements IFragmentPusher {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final String[] CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA};
     private static final int CAMERA_REQUEST_CODE = 10;
     public static final String TITLE = "Information";
+    private static final int RESULT_OK = 1;
     private View view;
     private RecipeEditorPresenter presenter;
     private final boolean newRecipe;
@@ -60,17 +65,7 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
             @Override
             public void onClick(View v) {
                 if (hasCameraPermission()) {
-                    //enableCamera();
                     dispatchTakePictureIntent();
-                    if(currentPhotoPath != null){
-                        File imgFile = new  File(currentPhotoPath);
-                        if(imgFile.exists()){
-                            ImageView image = view.findViewById(R.id.container);
-                            //Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                            //image.setImageBitmap(myBitmap);
-                            image.setImageURI(Uri.fromFile(imgFile));
-                        }
-                    }
                 } else {
                     requestPermission();
                 }
@@ -132,7 +127,7 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
         np = (NumberPicker) view.findViewById(R.id.picker_note);
         int note = np.getValue();
 
-        presenter.setInfoFragment(nom,getDifficulty(id_dif),getPrice(id_price),numberPerson,description,commentaire,note);
+        presenter.setInfoFragment(nom,getDifficulty(id_dif),getPrice(id_price),numberPerson,description,commentaire,note,currentPhotoPath);
         Log.d("1", "passage de push ds infofragment");
     }
 
@@ -193,7 +188,6 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
@@ -204,8 +198,8 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go
-            File photoFile = new File("C:\\Users\\Robin\\Desktop\\Cours mobil\\project\\app\\src\\main\\java\\devmob\\rl\\reciper\\recipeeditor\\editorfragments\\InfoFragment.java");
-            //File photoFile = null;
+            //File photoFile = new File(Environment.getExternalStorageDirectory(), "photo.jpg");
+            File photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
@@ -219,6 +213,16 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ImageView image = view.findViewById(R.id.container);
+            image.setImageBitmap(imageBitmap);
         }
     }
 }

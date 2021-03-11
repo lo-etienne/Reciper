@@ -25,6 +25,7 @@ public class RecipeEditorPresenter {
     private int nbPeople_recipe;
     private int note;
     private String commentary_recipe;
+    private String image;
     private List<Ingredient> listIngredient_recipe = new ArrayList<>();
     private List<Step> listStep_recipe = new ArrayList<>();
 
@@ -74,10 +75,11 @@ public class RecipeEditorPresenter {
     public int getNbPeople_recipe() { return nbPeople_recipe; }
     public int getNote() { return note; }
     public String getCommentary_recipe() { return commentary_recipe; }
+    public String getImage() { return image; }
     public List<Step> getListStep(){ return this.listStep_recipe; }
     public List<Ingredient> getListIngredient(){ return this.listIngredient_recipe; }
 
-    public void setInfoFragment(final String name, final String difficulty, final String price, final int nbPeople, final String description, final String commentary, final int note){
+    public void setInfoFragment(final String name, final String difficulty, final String price, final int nbPeople, final String description, final String commentary, final int note, final String image){
         name_recipe = name.equals("") ? name_recipe = "Nom par defaut" : name;
         difficulty_recipe = difficulty;
         price_recipe = price;
@@ -85,6 +87,7 @@ public class RecipeEditorPresenter {
         description_recipe = description.equals("") ? description_recipe = "Description par defaut" : description;
         commentary_recipe = commentary.equals("") ? commentary_recipe = "Commentaire par defaut" : commentary;
         this.note = note;
+        this.image = image;
     }
 
     public void setIngredientList(final List<Ingredient> listIngredient){ listIngredient_recipe = listIngredient; }
