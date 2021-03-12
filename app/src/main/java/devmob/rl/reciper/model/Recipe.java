@@ -2,18 +2,20 @@ package devmob.rl.reciper.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import devmob.rl.reciper.database.repository.RecipeRepository;
+
 @Entity
 public class Recipe {
 
     @PrimaryKey
     @NonNull
-    private UUID id;
+    private UUID recipeId;
 
     private String name;
     private String description;
@@ -30,7 +32,7 @@ public class Recipe {
 
     public Recipe(final String name, final String description, final String difficulty, final String price, final int numberOfPersons, final int note,
                   final String comment, final int duration){
-        id = UUID.randomUUID();
+        recipeId = UUID.randomUUID();
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
@@ -42,16 +44,18 @@ public class Recipe {
     }
 
     @NonNull
-    public UUID getId() {
-        return id;
+    public UUID getRecipeId() {
+        return recipeId;
     }
-    public void setId(@NonNull final UUID id) {
-        this.id = id;
+
+    public void setRecipeId(@NonNull UUID recipeId) {
+        this.recipeId = recipeId;
     }
 
     public String getName() {
         return name;
     }
+
     public void setName(final String name) {
         this.name = name;
     }
@@ -59,6 +63,7 @@ public class Recipe {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(final String description) {
         this.description = description;
     }
@@ -66,6 +71,7 @@ public class Recipe {
     public String getDifficulty() {
         return difficulty;
     }
+
     public void setDifficulty(final String difficulty) {
         this.difficulty = difficulty;
     }
@@ -73,6 +79,7 @@ public class Recipe {
     public int getNumberOfPersons() {
         return numberOfPersons;
     }
+
     public void setNumberOfPersons(final int numberOfPersons) {
         this.numberOfPersons = numberOfPersons;
     }
@@ -80,6 +87,7 @@ public class Recipe {
     public int getNote() {
         return note;
     }
+
     public void setNote(final int note) {
         this.note = note;
     }
@@ -87,6 +95,7 @@ public class Recipe {
     public String getComment() {
         return comment;
     }
+
     public void setComment(final String comment) {
         this.comment = comment;
     }
@@ -94,11 +103,15 @@ public class Recipe {
     public String getIllustrationUrl() {
         return illustrationUrl;
     }
-    public void setIllustrationUrl(final String illustrationUrl) { this.illustrationUrl = illustrationUrl; }
+
+    public void setIllustrationUrl(final String illustrationUrl) {
+        this.illustrationUrl = illustrationUrl;
+    }
 
     public boolean isFavorite() {
         return isFavorite;
     }
+
     public void setFavorite(final boolean favorite) {
         isFavorite = favorite;
     }

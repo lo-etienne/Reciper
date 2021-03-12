@@ -26,16 +26,16 @@ public interface RecipeDao {
     @Query("SELECT * FROM recipe")
     LiveData<List<Recipe>> getRecipes();
 
-    @Query("SELECT * FROM recipe WHERE id = (:uuid)")
+    @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
     LiveData<Recipe> getRecipe(final UUID uuid);
 
     @Transaction
-    @Query("SELECT * FROM recipe WHERE id = (:uuid)")
-    LiveData<RecipeAndSteps> getStepsByArtistId(final UUID uuid);
+    @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
+    LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid);
 
     @Transaction
-    @Query("SELECT * FROM recipe WHERE id = (:uuid)")
-    LiveData<RecipeAndIngredients> getIngredientByArtistId(final UUID uuid);
+    @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
+    LiveData<RecipeAndIngredients> getIngredientsByRecipeId(final UUID uuid);
 
     // INSERT
 

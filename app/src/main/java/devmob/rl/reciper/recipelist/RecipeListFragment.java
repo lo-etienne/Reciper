@@ -21,6 +21,9 @@ import android.view.ViewGroup;
 import java.util.UUID;
 
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.database.repository.RecipeRepository;
+import devmob.rl.reciper.model.Ingredient;
+import devmob.rl.reciper.model.Step;
 
 /**
  * A fragment representing a list of Items.
@@ -126,7 +129,17 @@ public class  RecipeListFragment extends Fragment implements IRecipeListScreen {
     /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.new_recipe) {
-            recipeListPresenter.addRecipe();
+            UUID id = recipeListPresenter.addRecipe();
+            Step step = new Step("Ceci est une description", id);
+            Step step1 = new Step("Ceci est une autre description", id);
+            Ingredient ingredient = new Ingredient(id, "Poulet", "400g");
+            Ingredient ingredient1 = new Ingredient(id, "Boeuf", "200g");
+            Ingredient ingredient2 = new Ingredient(id, "Lapin", "1kg");
+            RecipeRepository.getInstance().insertStep(step);
+            RecipeRepository.getInstance().insertStep(step1);
+            RecipeRepository.getInstance().insertIngredient(ingredient);
+            RecipeRepository.getInstance().insertIngredient(ingredient1);
+            RecipeRepository.getInstance().insertIngredient(ingredient2);
         } else if (item.getItemId() == R.id.favorite_button) {
             recipeListPresenter.addRecipe();
         }

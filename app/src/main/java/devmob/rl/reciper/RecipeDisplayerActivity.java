@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.UUID;
 
-import devmob.rl.reciper.recipedisplayer.RecipeDisplayerFragment;
+import devmob.rl.reciper.recipedisplayer.RecipeDisplayerCollectionFragment;
 
 public class RecipeDisplayerActivity extends AppCompatActivity {
 
@@ -19,7 +19,7 @@ public class RecipeDisplayerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if(currentFragment == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, RecipeDisplayerFragment.newInstance(retrieveUuid())).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, RecipeDisplayerCollectionFragment.newInstance(retrieveUuid())).commit();
         }
     }
 
