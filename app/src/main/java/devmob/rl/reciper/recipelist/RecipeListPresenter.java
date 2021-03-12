@@ -42,11 +42,11 @@ public class RecipeListPresenter {
      * Méthode qui permet d'ajouter une recette à la DB
      * @return
      */
-    /*public UUID addRecipe() {
+    public UUID addRecipe() {
         Recipe recipe = new Recipe();
         RecipeRepository.getInstance().insertRecipe(recipe);
-        return recipe.getId();
-    }*/
+        return recipe.getRecipeId();
+    }
 
     /**
      * Méthode qui permet d'afficher la recette à une position donnée
@@ -55,7 +55,7 @@ public class RecipeListPresenter {
      */
     public void showRecipeOn(IRecipeItemScreen holder, final int position) {
         Recipe recipe = recipeList.get(position);
-        holder.showRecipe(recipe.getId(), recipe.getName());
+        holder.showRecipe(recipe.getRecipeId(), recipe.getName());
     }
 
     /**

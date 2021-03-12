@@ -14,6 +14,9 @@ import devmob.rl.reciper.database.repository.RecipeRepository;
 import devmob.rl.reciper.model.Ingredient;
 import devmob.rl.reciper.model.Recipe;
 import devmob.rl.reciper.model.Step;
+import devmob.rl.reciper.recipeeditor.IScreen.IScreenInfo;
+import devmob.rl.reciper.recipeeditor.IScreen.IScreenIngredient;
+import devmob.rl.reciper.recipeeditor.IScreen.IScreenStep;
 
 public class RecipeEditorPresenter {
 
@@ -26,43 +29,30 @@ public class RecipeEditorPresenter {
     private int note;
     private String commentary_recipe;
     private String image;
-    private List<Ingredient> listIngredient_recipe = new ArrayList<>();
-    private List<Step> listStep_recipe = new ArrayList<>();
+
+    private List<Ingredient> listIngredient_recipe;
+    private List<Step> listStep_recipe;
+
+    private IScreenInfo screenInfo;
+    private IScreenIngredient screenIngredient;
+    private IScreenStep screenStep;
 
     public RecipeEditorPresenter(){
         this.recipeUUID = UUID.randomUUID();
+        listIngredient_recipe = new ArrayList<>();
+        listStep_recipe = new ArrayList<>();
     }
 
     public RecipeEditorPresenter(UUID uuid){
         this.recipeUUID = uuid;
-
-        RecipeRepository.getInstance().getStepsByRecipeId(uuid).observeForever(new Observer<RecipeAndSteps>() {
-            @Override
-            public void onChanged(RecipeAndSteps recipeAndSteps) {
-                RecipeEditorPresenter.this.listStep_recipe = recipeAndSteps.getSteps();
-            }
-        });
-
-        RecipeRepository.getInstance().getIngredientByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
-            @Override
-            public void onChanged(RecipeAndIngredients recipeAndIngredients) {
-                RecipeEditorPresenter.this.listIngredient_recipe = recipeAndIngredients.getIngredients();
-            }
-        });
-
-        RecipeRepository.getInstance().getRecipe(uuid).observeForever(new Observer<Recipe>() {
-            @Override
-            public void onChanged(Recipe recipe) {
-                RecipeEditorPresenter.this.name_recipe = recipe.getName();
-                RecipeEditorPresenter.this.description_recipe = recipe.getDescription();
-                RecipeEditorPresenter.this.difficulty_recipe = recipe.getDifficulty();
-                RecipeEditorPresenter.this.price_recipe = recipe.getPrice();
-                RecipeEditorPresenter.this.nbPeople_recipe = recipe.getNumberOfPersons();
-                RecipeEditorPresenter.this.note = recipe.getNote();
-                RecipeEditorPresenter.this.commentary_recipe = recipe.getComment();
-            }
-        });
+        listIngredient_recipe = new ArrayList<>();
+        listStep_recipe = new ArrayList<>();
+        Log.d("RecipeEditorPresenter","passage interne");
     }
+
+    public void setScreenInfo(IScreenInfo screenInfo) { this.screenInfo = screenInfo; }
+    public void setScreenIngredient(IScreenIngredient screenIngredient) { this.screenIngredient = screenIngredient; }
+    public void setScreenStep(IScreenStep screenStep) { this.screenStep = screenStep; }
 
     //getteur
     public UUID getRecipeUUID() {
@@ -96,21 +86,28 @@ public class RecipeEditorPresenter {
     }
 
     public void createRecipe(){
-        Recipe recipe = new Recipe(name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration());
+        Recipe recipe = new Recipe(recipeUUID, name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration(),image);
         RecipeRepository.getInstance().insertRecipe(recipe);
-        for (Ingredient ingredient:listIngredient_recipe) {
-            RecipeRepository.getInstance().insertIngredient(ingredient);
-        }
-        for (Step step:listStep_recipe) {
-            RecipeRepository.getInstance().insertStep(step);
-        }
+        insertListDB();
         Log.d("1","passage createRecipe");
     }
+
     public void updateData(){
-        Recipe recipe = new Recipe(name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration());
+        Recipe recipe = new Recipe(recipeUUID, name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration(),image);
         RecipeRepository.getInstance().updateRecipe(recipe);
-        //RecipeRepository.getInstance().updateListIngredient(listIngredient_recipe);
-        //RecipeRepository.getInstance().updateListStep(listStep_recipe);
+        RecipeRepository.getInstance().deleteIngredients(getRecipeUUID());
+        RecipeRepository.getInstance().deleteSteps(getRecipeUUID());
+        insertListDB();
+        Log.d("1","passage updateData");
+    }
+
+    private void insertListDB(){
+        for (Ingredient ingredient : listIngredient_recipe) {
+            RecipeRepository.getInstance().insertIngredient(ingredient);
+        }
+        for (Step step : listStep_recipe) {
+            RecipeRepository.getInstance().insertStep(step);
+        }
     }
 
     private int getDuration() {
@@ -123,5 +120,47 @@ public class RecipeEditorPresenter {
             }
         }
         return duration;
+    }
+
+    public void setDataInfo(UUID uuid){
+        RecipeRepository.getInstance().getRecipe(uuid).observeForever(new Observer<Recipe>() {
+            @Override
+            public void onChanged(Recipe recipe) {
+                RecipeEditorPresenter.this.name_recipe = recipe.getName();
+                RecipeEditorPresenter.this.description_recipe = recipe.getDescription();
+                RecipeEditorPresenter.this.difficulty_recipe = recipe.getDifficulty();
+                RecipeEditorPresenter.this.price_recipe = recipe.getPrice();
+                RecipeEditorPresenter.this.nbPeople_recipe = recipe.getNumberOfPersons();
+                RecipeEditorPresenter.this.note = recipe.getNote();
+                RecipeEditorPresenter.this.commentary_recipe = recipe.getComment();
+                RecipeEditorPresenter.this.image = recipe.getIllustrationUrl();
+                screenInfo.update();
+                Log.d("setData", "Info " + name_recipe);
+            }
+        });
+    }
+
+    public void setDataIngredient(UUID uuid){
+        RecipeRepository.getInstance().getIngredientsByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
+            @Override
+            public void onChanged(RecipeAndIngredients recipeAndIngredients) {
+                RecipeEditorPresenter.this.listIngredient_recipe.clear();
+                RecipeEditorPresenter.this.listIngredient_recipe.addAll(recipeAndIngredients.getIngredients());
+                screenIngredient.update();
+                Log.d("setData", "Ingredient " + listIngredient_recipe.size());
+            }
+        });
+    }
+
+    public void setDataStep(UUID uuid){
+        RecipeRepository.getInstance().getStepsByRecipeId(uuid).observeForever(new Observer<RecipeAndSteps>() {
+            @Override
+            public void onChanged(RecipeAndSteps recipeAndSteps) {
+                RecipeEditorPresenter.this.listStep_recipe.clear();
+                RecipeEditorPresenter.this.listStep_recipe.addAll(recipeAndSteps.getSteps());
+                screenStep.update();
+                Log.d("setData", "Step " + listStep_recipe.size());
+            }
+        });
     }
 }

@@ -1,6 +1,8 @@
 package devmob.rl.reciper;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,8 +21,15 @@ public class RecipeEditorActivity extends AppCompatActivity {
         //getSupportActionBar().setDisplayShowTitleEnabled(true);
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_editor);
         if(currentFragment == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_editor, RecipeCollectionEditorFragment.newInstance()).commit();
+            if(getIntent().hasExtra("recipeId")){
+                Log.d("tag", "uuid " + retrieveUuid().toString());
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_editor, RecipeCollectionEditorFragment.newInstance(retrieveUuid())).commit();
+            }else{
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_editor, RecipeCollectionEditorFragment.newInstance()).commit();
+            }
         }
+
+
     }
 
     private UUID retrieveUuid() {

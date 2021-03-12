@@ -2,6 +2,7 @@ package devmob.rl.reciper.recipeeditor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,8 +28,17 @@ public class RecipeCollectionEditorFragment extends Fragment {
     private RecipeCollectionEditorPagerAdapter collection;
     private ViewPager viewPager;
     private RecipeEditorPresenter presenter;
-    private View view;
     private final boolean newRecipe;
+
+    public static RecipeCollectionEditorFragment newInstance() {
+        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment();
+        return fragment;
+    }
+    public static RecipeCollectionEditorFragment newInstance(UUID uuid) {
+        Log.d("RecipeCollectionEditor", "newInstance");
+        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(uuid);
+        return fragment;
+    }
 
     public RecipeCollectionEditorFragment(){
         newRecipe = true;
@@ -48,27 +58,16 @@ public class RecipeCollectionEditorFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.recipe_editor_fragment, container, false);
-        return view;
+        return inflater.inflate(R.layout.recipe_editor_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        //presenter = new RecipeEditorPresenter();
         TabLayout tab = view.findViewById(R.id.tab_layout);
         collection = new RecipeCollectionEditorPagerAdapter(getChildFragmentManager(),presenter,newRecipe);
         viewPager = view.findViewById(R.id.pager);
         viewPager.setAdapter(collection);
         tab.setupWithViewPager(this.viewPager);
-    }
-
-    public static RecipeCollectionEditorFragment newInstance() {
-        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment();
-        return fragment;
-    }
-    public static RecipeCollectionEditorFragment newInstance(UUID uuid) {
-        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(uuid);
-        return fragment;
     }
 
     @Override
@@ -81,7 +80,11 @@ public class RecipeCollectionEditorFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.validation_button){
             collection.pushData();
-            presenter.createRecipe();
+            if(newRecipe){
+                presenter.createRecipe();
+            }else{
+                presenter.updateData();
+            }
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
         }
