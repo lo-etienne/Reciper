@@ -7,9 +7,13 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndIngredients;
+import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndSteps;
 import devmob.rl.reciper.database.ReciperDatabase;
 import devmob.rl.reciper.database.dao.RecipeDao;
+import devmob.rl.reciper.model.Ingredient;
 import devmob.rl.reciper.model.Recipe;
+import devmob.rl.reciper.model.Step;
 
 public class RecipeRepository {
 
@@ -19,19 +23,23 @@ public class RecipeRepository {
     /* Alors, ici je crée un objet ExecutorService car les INSERT et les UPDATE ne peuvent pas
         utiliser des LiveData, il faut donc un thread pour travailler en asynchrone (newSingleThreadExecutor)
     */
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     /**
      * Constructeur défini en privé pour éviter qu'il soit utilisé malencontreusement
      */
-    private RecipeRepository() {};
+    private RecipeRepository() {
+    }
+
+    ;
 
     /**
      * Méthode qui permet d'obtenir une instance de RecipeRepository
+     *
      * @return
      */
     public static RecipeRepository getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new RecipeRepository();
         }
         return instance;
@@ -39,6 +47,7 @@ public class RecipeRepository {
 
     /**
      * Méthode qui permet d'obtenir les recettes présentes dans la DB
+     *
      * @return un objet LiveData
      */
     public LiveData<List<Recipe>> getRecipes() {
@@ -47,6 +56,7 @@ public class RecipeRepository {
 
     /**
      * Méthode qui permet d'obtenir une recette de la DB grâce à un id donné
+     *
      * @param uuid objet UUID qui correspond à l'id de la recette à sortir de la DB
      * @return un objet depuis la DB dont l'id = uuid
      */
@@ -55,31 +65,92 @@ public class RecipeRepository {
     }
 
     /**
+     * Méthode qui permet d'obtenir, depuis la DB, l'ensemble des étapes d'une recett
+     * grâce à l'id de cette dernière
+     *
+     * @param uuid
+     * @return
+     */
+    public LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid) {
+        return recipeDao.getStepsByArtistId(uuid);
+    }
+
+    public LiveData<RecipeAndIngredients> getIngredientByRecipeId(final UUID uuid){
+        return recipeDao.getIngredientByArtistId(uuid);
+    }
+
+    /**
      * Méthode qui permet d'effectuer un insert d'une recette dans la DB
+     *
      * @param recipe objet Recipe à insérer dans la DB
      */
     public void insertRecipe(final Recipe recipe) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                recipeDao.insert(recipe);
+                recipeDao.insertRecipe(recipe);
+            }
+        });
+    }
+
+    public void insertStep(final Step step) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.insertStep(step);
+            }
+        });
+    }
+
+    public void insertIngredient(final Ingredient ingredient) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.insertIngredient(ingredient);
             }
         });
     }
 
     /**
      * Méthode qui permet de update une recette de la DB
+     *
      * @param recipe objet Recipe à update dans la DB
      */
     public void updateRecipe(final Recipe recipe) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                recipeDao.update(recipe);
+                recipeDao.updateRecipe(recipe);
             }
         });
     }
 
+    public void deleteRecipe(final Recipe recipe) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteRecipe(recipe);
+            }
+        });
+    }
 
+    public void deleteStep(final Step step) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteStep(step);
+            }
+        });
+    }
 
+    public void deleteIngredient(final Ingredient ingredient) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteIngredient(ingredient);
+            }
+        });
+    }
 }
+
+
