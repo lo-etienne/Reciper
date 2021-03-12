@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -81,5 +83,10 @@ public class RecipeDisplayerInformationFragment extends Fragment implements IRec
         this.recipeDifficulty.setText(recipeDifficulty);
         this.recipeNote.setText(recipeNote);
         this.recipeComment.setText(recipeComment);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

@@ -140,8 +140,6 @@ public class  RecipeListFragment extends Fragment implements IRecipeListScreen {
             RecipeRepository.getInstance().insertIngredient(ingredient);
             RecipeRepository.getInstance().insertIngredient(ingredient1);
             RecipeRepository.getInstance().insertIngredient(ingredient2);
-        } else if (item.getItemId() == R.id.favorite_button) {
-            recipeListPresenter.addRecipe();
         }
         return super.onOptionsItemSelected(item);
     }

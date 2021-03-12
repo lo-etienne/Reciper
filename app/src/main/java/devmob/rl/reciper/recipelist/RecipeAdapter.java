@@ -1,13 +1,19 @@
 package devmob.rl.reciper.recipelist;
 
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.UUID;
 
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.database.repository.RecipeRepository;
+import devmob.rl.reciper.model.Recipe;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
@@ -54,6 +60,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         public final View view;
         private RecipeListFragment.ISelectRecipe callBacks;
         public TextView recipeNameTextView;
+        public ImageButton favoriteButton;
         private UUID uuid;
 
         public ViewHolder(View view, RecipeListFragment.ISelectRecipe callBacks) {
@@ -63,12 +70,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             // Si on clique sur un élément de la liste, on accède à ses data (RecipeFragment)
             view.setOnClickListener(this);
             recipeNameTextView = view.findViewById(R.id.recipe_name);
+            favoriteButton = view.findViewById(R.id.favorite_button);
+            favoriteButton.setOnClickListener(this);
+
         }
 
 
         @Override
         public void onClick(View v) {
-            callBacks.onSelectedRecipe(uuid);
+            if(v.getId() == R.id.favorite_button) {
+                if(favoriteButton.getTag() != null && favoriteButton.getTag().toString().equals("favorite")) {
+                    RecipeRepository.getInstance().updateRecipeFavoriteStatut(false, uuid);
+                } else if(favoriteButton.getTag() != null && favoriteButton.getTag().toString().equals("notFavorite")) {
+                    RecipeRepository.getInstance().updateRecipeFavoriteStatut(true, uuid);
+                }
+            } else {
+                callBacks.onSelectedRecipe(uuid);
+            }
         }
 
         /**
@@ -80,6 +98,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         public void showRecipe(UUID id,  String name) {
             this.uuid = id;
             recipeNameTextView.setText(name);
+            RecipeRepository.getInstance().getRecipe(uuid).observeForever(new Observer<Recipe>() {
+                @Override
+                public void onChanged(Recipe recipe) {
+                    if(recipe.isFavorite()) {
+                        ViewHolder.this.favoriteButton.setTag("favorite");
+                        ViewHolder.this.favoriteButton.setImageResource(R.drawable.ic_favorite);
+                    } else {
+                        ViewHolder.this.favoriteButton.setTag("notFavorite");
+                        ViewHolder.this.favoriteButton.setImageResource(R.drawable.ic_not_favorite);
+                    }
+                }
+            });
         }
+
     }
 }

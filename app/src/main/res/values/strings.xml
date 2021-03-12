@@ -8,4 +8,5 @@
     <string name="delete_recipe_menu">Delete Recipe</string>
     <string name="edit_recipe_menu">Edit Recipe</string>
     <string name="share_recipe_menu">Share Recipe</string>
+    <string name="favorite_recipe_menu">Favoris</string>
 </resources>

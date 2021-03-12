@@ -23,7 +23,7 @@ public interface RecipeDao {
 
     // SELECT
 
-    @Query("SELECT * FROM recipe")
+    @Query("SELECT * FROM recipe ORDER BY isFavorite DESC")
     LiveData<List<Recipe>> getRecipes();
 
     @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
@@ -36,6 +36,9 @@ public interface RecipeDao {
     @Transaction
     @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
     LiveData<RecipeAndIngredients> getIngredientsByRecipeId(final UUID uuid);
+
+    @Query("UPDATE recipe SET isFavorite = :isFavorite WHERE recipeId = (:uuid)")
+    void updateRecipeFavoriteStatut(final boolean isFavorite, final UUID uuid);
 
     // INSERT
 

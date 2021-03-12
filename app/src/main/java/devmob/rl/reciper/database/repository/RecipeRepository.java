@@ -132,6 +132,15 @@ public class RecipeRepository {
         });
     }
 
+    public void updateRecipeFavoriteStatut(final boolean isFavorite, final UUID recipeId) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.updateRecipeFavoriteStatut(isFavorite, recipeId);
+            }
+        });
+    }
+
     public void deleteRecipe(final Recipe recipe) {
         executor.execute(new Runnable() {
             @Override
