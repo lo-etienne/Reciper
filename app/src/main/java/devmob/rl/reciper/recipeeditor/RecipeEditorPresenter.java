@@ -88,27 +88,17 @@ public class RecipeEditorPresenter {
     public void createRecipe(){
         Recipe recipe = new Recipe(recipeUUID, name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration(),image);
         RecipeRepository.getInstance().insertRecipe(recipe);
-        insertListDB();
-        Log.d("1","passage createRecipe");
+        RecipeRepository.getInstance().updateElementForRecipe(recipeUUID, listIngredient_recipe, listStep_recipe);
+        Log.d("RecipeEditorPresenter","passage createRecipe");
     }
 
     public void updateData(){
         Recipe recipe = new Recipe(recipeUUID, name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration(),image);
         RecipeRepository.getInstance().updateRecipe(recipe);
-        RecipeRepository.getInstance().deleteIngredients(getRecipeUUID());
-        RecipeRepository.getInstance().deleteSteps(getRecipeUUID());
-        insertListDB();
-        Log.d("1","passage updateData");
+        RecipeRepository.getInstance().updateElementForRecipe(recipeUUID, listIngredient_recipe, listStep_recipe);
+        Log.d("RecipeEditorPresenter","passage updateData");
     }
 
-    private void insertListDB(){
-        for (Ingredient ingredient : listIngredient_recipe) {
-            RecipeRepository.getInstance().insertIngredient(ingredient);
-        }
-        for (Step step : listStep_recipe) {
-            RecipeRepository.getInstance().insertStep(step);
-        }
-    }
 
     private int getDuration() {
         int duration = 0;

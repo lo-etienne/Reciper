@@ -18,58 +18,68 @@ import devmob.rl.reciper.model.Recipe;
 import devmob.rl.reciper.model.Step;
 
 @Dao
-public interface RecipeDao {
+public abstract class RecipeDao {
 
 
     // SELECT
 
     @Query("SELECT * FROM recipe")
-    LiveData<List<Recipe>> getRecipes();
+    public abstract LiveData<List<Recipe>> getRecipes();
 
     @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
-    LiveData<Recipe> getRecipe(final UUID uuid);
-
-    @Transaction
-    @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
-    LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid);
+    public abstract LiveData<Recipe> getRecipe(final UUID uuid);
 
     @Transaction
     @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
-    LiveData<RecipeAndIngredients> getIngredientsByRecipeId(final UUID uuid);
+    public abstract LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid);
+
+    @Transaction
+    @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
+    public abstract LiveData<RecipeAndIngredients> getIngredientsByRecipeId(final UUID uuid);
 
     @Query("DELETE FROM ingredient WHERE recipeContainerId = (:recipeId)")
-    void deleteIngredientByRecipeId(final UUID recipeId);
+    public abstract void deleteIngredientByRecipeId(final UUID recipeId);
 
     @Query("DELETE FROM step WHERE recipeContainerId = (:recipeId)")
-    void deleteStepByRecipeId(final UUID recipeId);
+    public abstract void deleteStepByRecipeId(final UUID recipeId);
 
     // INSERT
 
     @Insert
-    void insertRecipe(final Recipe recipe);
+    public abstract void insertRecipe(final Recipe recipe);
 
     @Insert
-    void insertStep(final Step step);
+    public abstract void insertStep(final Step step);
 
     @Insert
-    void insertIngredient(final Ingredient ingredient);
+    public abstract void insertIngredient(final Ingredient ingredient);
 
     // UPDATE
 
     @Update
-    void updateRecipe(final Recipe recipe);
+    public abstract void updateRecipe(final Recipe recipe);
 
     // DELETE
     @Delete
-    void deleteRecipe(final Recipe recipe);
+    public abstract void deleteRecipe(final Recipe recipe);
 
     @Delete
-    void deleteStep(final Step step);
+    public abstract void deleteStep(final Step step);
 
     @Delete
-    void deleteIngredient(final Ingredient ingredient);
+    public abstract void deleteIngredient(final Ingredient ingredient);
 
-
+    @Transaction
+    public void updateElementForRecipe(final UUID uuid, final List<Ingredient> listIngredient, final List<Step> listStep){
+        deleteIngredientByRecipeId(uuid);
+        deleteStepByRecipeId(uuid);
+        for (Ingredient ingredient:listIngredient) {
+            insertIngredient(ingredient);
+        }
+        for (Step step:listStep) {
+            insertStep(step);
+        }
+    }
 
 
 

@@ -178,6 +178,14 @@ public class RecipeRepository {
             }
         });
     }
+    public void updateElementForRecipe(final UUID uuid, final List<Ingredient> listIngredient, final List<Step> listStep){
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.updateElementForRecipe(uuid,listIngredient,listStep);
+            }
+        });
+    }
 }
 
 
