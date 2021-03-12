@@ -90,10 +90,22 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
         Log.d("push", "passage de push dans infofragment");
     }
 
+    /**
+     * Verifie si on a la permission d'utiliser l'appareil photo
+     * @return true si on peut, false si peut pas
+     */
     private boolean hasCameraPermission() { return ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED; }
 
+    /**
+     * demande a l'utilisateur sa permition pour utiliser l'apareil photo
+     */
     private void requestPermission() { ActivityCompat.requestPermissions(this.getActivity(), CAMERA_PERMISSION, CAMERA_REQUEST_CODE); }
 
+    /**
+     * Methode creant un file pour une photo
+     * @return file
+     * @throws IOException si une erreur est lancer durant la creation d'un file
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = null;
@@ -113,6 +125,9 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
         return image;
     }
 
+    /**
+     * appel l'appareil photo si le file ou la photo ira est bon ensuite appel onActivityResult
+     */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -125,7 +140,6 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
                 Log.d("IOException", "la methode createFile a genere une IOException");
                 ex.printStackTrace();
             }
-            // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this.getContext(),
                         "com.example.android.fileprovider",
