@@ -2,6 +2,7 @@ package devmob.rl.reciper.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -30,6 +31,22 @@ public class Recipe {
 
     private boolean isFavorite;
 
+    public Recipe() {
+        recipeId = UUID.randomUUID();
+        name = "Nom de la recette";
+        description = "Ceci est une description";
+        difficulty = "difficile";
+        duration = 300;
+        numberOfPersons = 10;
+        note = 2;
+        price = "cher";
+        comment = "Ceci est un commentaire";
+        illustrationUrl = "url/directory1/directory2.png";
+        isFavorite = false;
+
+    }
+
+    @Ignore
     public Recipe(final String name, final String description, final String difficulty, final String price, final int numberOfPersons, final int note,
                   final String comment, final int duration){
         recipeId = UUID.randomUUID();
