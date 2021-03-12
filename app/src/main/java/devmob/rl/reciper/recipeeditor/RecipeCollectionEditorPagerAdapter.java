@@ -10,8 +10,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import devmob.rl.reciper.recipeeditor.editorfragments.InfoFragment;
-import devmob.rl.reciper.recipeeditor.editorfragments.Ingredient.IngredientFragment;
+import devmob.rl.reciper.recipeeditor.editorfragments.info.InfoFragment;
+import devmob.rl.reciper.recipeeditor.editorfragments.ingredient.IngredientFragment;
 import devmob.rl.reciper.recipeeditor.editorfragments.step.StepFragment;
 
 public class RecipeCollectionEditorPagerAdapter extends FragmentStatePagerAdapter {

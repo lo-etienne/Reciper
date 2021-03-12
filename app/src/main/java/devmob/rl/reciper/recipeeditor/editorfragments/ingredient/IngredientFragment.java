@@ -1,4 +1,4 @@
-package devmob.rl.reciper.recipeeditor.editorfragments.Ingredient;
+package devmob.rl.reciper.recipeeditor.editorfragments.ingredient;
 
 import android.content.Context;
 import android.os.Bundle;

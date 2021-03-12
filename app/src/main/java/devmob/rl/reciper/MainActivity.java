@@ -10,8 +10,6 @@ import android.view.MenuItem;
 
 import java.util.UUID;
 
-import devmob.rl.reciper.recipeeditor.RecipeCollectionEditorFragment;
-import devmob.rl.reciper.recipeeditor.editorfragments.Ingredient.IngredientFragment;
 import devmob.rl.reciper.recipelist.RecipeListFragment;
 
 public class MainActivity extends AppCompatActivity implements RecipeListFragment.ISelectRecipe{

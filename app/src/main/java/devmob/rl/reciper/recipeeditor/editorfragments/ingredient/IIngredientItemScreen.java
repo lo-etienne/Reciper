@@ -1,4 +1,4 @@
-package devmob.rl.reciper.recipeeditor.editorfragments.Ingredient;
+package devmob.rl.reciper.recipeeditor.editorfragments.ingredient;
 
 import devmob.rl.reciper.model.Ingredient;
 

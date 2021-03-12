@@ -58,7 +58,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".recipeeditor.editorfragments.Ingredient.IngredientFragment"
+        tools:context=".recipeeditor.editorfragments.ingredient.IngredientFragment"
         tools:listitem="@layout/fragment_ingredient_item_list"
         app:layout_constraintTop_toBottomOf="@+id/ingredient_field"/>
 
