@@ -40,6 +40,15 @@ public interface RecipeDao {
     @Query("UPDATE recipe SET isFavorite = :isFavorite WHERE recipeId = (:uuid)")
     void updateRecipeFavoriteStatut(final boolean isFavorite, final UUID uuid);
 
+    @Query("DELETE FROM step WHERE recipeContainerId = (:uuid)")
+    void deleteStepsByRecipeId(final UUID uuid);
+
+    @Query("DELETE FROM ingredient WHERE recipeContainerId = (:uuid)")
+    void deleteIngredientsByRecipeId(final UUID uuid);
+
+    @Query("DELETE FROM recipe WHERE recipeId = (:uuid)")
+    void deleteRecipeById(final UUID uuid);
+
     // INSERT
 
     @Insert

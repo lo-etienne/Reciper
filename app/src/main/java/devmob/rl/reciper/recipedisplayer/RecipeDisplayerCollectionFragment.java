@@ -3,7 +3,6 @@ package devmob.rl.reciper.recipedisplayer;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +21,9 @@ import com.google.gson.Gson;
 
 import java.util.UUID;
 
+import devmob.rl.reciper.MainActivity;
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.database.repository.RecipeRepository;
 import devmob.rl.reciper.model.Recipe;
 
 public class RecipeDisplayerCollectionFragment extends Fragment {
@@ -75,24 +76,29 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
             return true;
         }
         if(item.getItemId() == R.id.delete_recipe) {
-            deleteRecipe(recipeId);
+            initDeleteRecipe(recipeId);
+            return true;
         }
         return onOptionsItemSelected(item);
     }
 
-    private void deleteRecipe(final UUID uuid) {
+    private void initDeleteRecipe(final UUID uuid) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
         builder.setCancelable(true);
         builder.setTitle("Supprimer ?");
         builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                RecipeRepository.getInstance().deleteStepsByRecipeId(uuid);
+                RecipeRepository.getInstance().deleteIngredientsByRecipeId(uuid);
+                RecipeRepository.getInstance().deleteRecipeById(uuid);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
             }
         });
         builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
             }
         });
 

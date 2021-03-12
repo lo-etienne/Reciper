@@ -150,6 +150,15 @@ public class RecipeRepository {
         });
     }
 
+    public void deleteRecipeById(final UUID uuid) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteRecipeById(uuid);
+            }
+        });
+    }
+
     public void deleteStep(final Step step) {
         executor.execute(new Runnable() {
             @Override
@@ -164,6 +173,24 @@ public class RecipeRepository {
             @Override
             public void run() {
                 recipeDao.deleteIngredient(ingredient);
+            }
+        });
+    }
+
+    public void deleteStepsByRecipeId(final UUID uuid) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteStepsByRecipeId(uuid);
+            }
+        });
+    }
+
+    public void deleteIngredientsByRecipeId(final UUID uuid) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteIngredientsByRecipeId(uuid);
             }
         });
     }

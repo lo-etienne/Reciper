@@ -1,5 +1,6 @@
 package devmob.rl.reciper.recipelist;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -98,7 +99,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         public void showRecipe(UUID id,  String name) {
             this.uuid = id;
             recipeNameTextView.setText(name);
-            RecipeRepository.getInstance().getRecipe(uuid).observeForever(new Observer<Recipe>() {
+            final LiveData<Recipe> recipeLiveData = RecipeRepository.getInstance().getRecipe(uuid);
+            recipeLiveData.observeForever(new Observer<Recipe>() {
                 @Override
                 public void onChanged(Recipe recipe) {
                     if(recipe.isFavorite()) {
@@ -108,6 +110,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                         ViewHolder.this.favoriteButton.setTag("notFavorite");
                         ViewHolder.this.favoriteButton.setImageResource(R.drawable.ic_not_favorite);
                     }
+                    recipeLiveData.removeObserver(this);
                 }
             });
         }
