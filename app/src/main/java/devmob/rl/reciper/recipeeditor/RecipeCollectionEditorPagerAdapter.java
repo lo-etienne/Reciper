@@ -1,6 +1,7 @@
 package devmob.rl.reciper.recipeeditor;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -77,5 +78,6 @@ public class RecipeCollectionEditorPagerAdapter extends FragmentStatePagerAdapte
         for (IFragmentPusher fragmentPusher:list) {
             fragmentPusher.push();
         }
+        Log.d("log size", list.size() + "");
     }
 }

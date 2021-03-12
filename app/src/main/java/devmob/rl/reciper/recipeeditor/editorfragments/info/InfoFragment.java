@@ -87,6 +87,7 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
     @Override
     public void push() {
         InfoSetter.setInfo(view, presenter, currentPhotoPath);
+        Log.d("push", "passage de push dans infofragment");
     }
 
     private boolean hasCameraPermission() { return ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED; }

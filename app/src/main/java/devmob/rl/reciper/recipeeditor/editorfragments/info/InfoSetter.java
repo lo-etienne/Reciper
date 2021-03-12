@@ -34,7 +34,6 @@ public class InfoSetter {
         int note = getValueFromNumberPicker(view.findViewById(R.id.picker_note));
 
         presenter.setInfoFragment(nom,getDifficulty(id_dif),getPrice(id_price),numberPerson,description,commentaire,note,currentPhotoPath);
-        Log.d("1", "passage de push ds infofragment");
     }
 
     /**

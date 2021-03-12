@@ -70,21 +70,15 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.add_ingredient :
-                EditText ed;
+        if (v.getId() == R.id.add_ingredient) {//extraire et mettre dans une variable le contenue de l'edit text
+            EditText ed = (EditText) view.findViewById(R.id.ingredient_field_name);
+            String ingredient = ed.getText().toString();
 
-                //extraire et mettre dans une variable le contenue de l'edit text
-                ed = (EditText)view.findViewById(R.id.ingredient_field_name);
-                String ingredient = ed.getText().toString();
+            ed = (EditText) view.findViewById(R.id.ingredient_field_quantite);
+            String quantity = ed.getText().toString();
 
-                ed = (EditText)view.findViewById(R.id.ingredient_field_quantite);
-                String quantity = ed.getText().toString();
-
-                presenter.addIngredient(ingredient,quantity);
-                Log.d("1","addIngredient du presenter appele du onClick");
-                break;
+            presenter.addIngredient(ingredient, quantity);
+            Log.d("1", "addIngredient du presenter appele du onClick");
         }
     }
 
@@ -105,6 +99,6 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     @Override
     public void push() {
         presenter.publish();
-        Log.d("1", "passage ds push ds ingredientFragment");
+        Log.d("push", "passage de push dans ingredientFragment");
     }
 }

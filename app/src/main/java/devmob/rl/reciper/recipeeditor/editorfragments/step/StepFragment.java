@@ -95,6 +95,6 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
     @Override
     public void push() {
         presenter.publish();
-        Log.d("1", "passage de push ds StepFragment");
+        Log.d("push", "passage de push dans StepFragment");
     }
 }
