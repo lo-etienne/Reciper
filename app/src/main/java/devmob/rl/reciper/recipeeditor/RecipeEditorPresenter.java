@@ -43,7 +43,7 @@ public class RecipeEditorPresenter {
             }
         });
 
-        RecipeRepository.getInstance().getIngredientByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
+        RecipeRepository.getInstance().getIngredientsByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
             @Override
             public void onChanged(RecipeAndIngredients recipeAndIngredients) {
                 RecipeEditorPresenter.this.listIngredient_recipe = recipeAndIngredients.getIngredients();

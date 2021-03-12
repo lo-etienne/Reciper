@@ -86,10 +86,6 @@ public class RecipeRepository {
         return recipeDao.getIngredientsByRecipeId(uuid);
     }
 
-    public LiveData<RecipeAndIngredients> getIngredientByRecipeId(final UUID uuid){
-        return recipeDao.getIngredientByArtistId(uuid);
-    }
-
     /**
      * Méthode qui permet d'effectuer un insert d'une recette dans la DB
      *
