@@ -86,14 +86,14 @@ public class RecipeEditorPresenter {
     }
 
     public void createRecipe(){
-        Recipe recipe = new Recipe(name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration());
+        Recipe recipe = new Recipe(recipeUUID, name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration(),image);
         RecipeRepository.getInstance().insertRecipe(recipe);
         insertListDB();
         Log.d("1","passage createRecipe");
     }
 
     public void updateData(){
-        Recipe recipe = new Recipe(name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration());
+        Recipe recipe = new Recipe(recipeUUID, name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration(),image);
         RecipeRepository.getInstance().updateRecipe(recipe);
         RecipeRepository.getInstance().deleteIngredients(getRecipeUUID());
         RecipeRepository.getInstance().deleteSteps(getRecipeUUID());
@@ -133,6 +133,7 @@ public class RecipeEditorPresenter {
                 RecipeEditorPresenter.this.nbPeople_recipe = recipe.getNumberOfPersons();
                 RecipeEditorPresenter.this.note = recipe.getNote();
                 RecipeEditorPresenter.this.commentary_recipe = recipe.getComment();
+                RecipeEditorPresenter.this.image = recipe.getIllustrationUrl();
                 screenInfo.update();
                 Log.d("setData", "Info " + name_recipe);
             }
@@ -155,7 +156,8 @@ public class RecipeEditorPresenter {
         RecipeRepository.getInstance().getStepsByRecipeId(uuid).observeForever(new Observer<RecipeAndSteps>() {
             @Override
             public void onChanged(RecipeAndSteps recipeAndSteps) {
-                RecipeEditorPresenter.this.listStep_recipe = recipeAndSteps.getSteps();
+                RecipeEditorPresenter.this.listStep_recipe.clear();
+                RecipeEditorPresenter.this.listStep_recipe.addAll(recipeAndSteps.getSteps());
                 screenStep.update();
                 Log.d("setData", "Step " + listStep_recipe.size());
             }

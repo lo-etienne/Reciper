@@ -41,15 +41,15 @@ public class Recipe {
         note = 2;
         price = "cher";
         comment = "Ceci est un commentaire";
-        illustrationUrl = "url/directory1/directory2.png";
+        illustrationUrl = "";
         isFavorite = false;
 
     }
 
     @Ignore
-    public Recipe(final String name, final String description, final String difficulty, final String price, final int numberOfPersons, final int note,
-                  final String comment, final int duration){
-        recipeId = UUID.randomUUID();
+    public Recipe(final UUID uuid, final String name, final String description, final String difficulty, final String price, final int numberOfPersons, final int note,
+                  final String comment, final int duration, final String illustrationUrl){
+        this.recipeId = uuid;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
@@ -58,6 +58,7 @@ public class Recipe {
         this.note = note;
         this.comment = comment;
         this.duration = duration;
+        this.illustrationUrl = illustrationUrl;
     }
 
     @NonNull

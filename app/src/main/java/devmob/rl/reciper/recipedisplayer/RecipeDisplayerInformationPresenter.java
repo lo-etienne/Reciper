@@ -22,7 +22,7 @@ public class RecipeDisplayerInformationPresenter {
             public void onChanged(Recipe recipe) {
                 RecipeDisplayerInformationPresenter.this.recipe = recipe;
                 if(recipe != null) {
-                    screen.showRecipeInformation(recipe.getName(), recipe.getDescription(), Integer.toString(recipe.getDuration()), Integer.toString(recipe.getNumberOfPersons()), recipe.getPrice(), recipe.getDifficulty(), Integer.toString(recipe.getNote()), recipe.getComment());
+                    screen.showRecipeInformation(recipe.getIllustrationUrl(), recipe.getName(), recipe.getDescription(), Integer.toString(recipe.getDuration()), Integer.toString(recipe.getNumberOfPersons()), recipe.getPrice(), recipe.getDifficulty(), Integer.toString(recipe.getNote()), recipe.getComment());
                 }
             }
         });

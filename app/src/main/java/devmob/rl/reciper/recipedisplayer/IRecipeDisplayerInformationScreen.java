@@ -1,7 +1,8 @@
 package devmob.rl.reciper.recipedisplayer;
 
 public interface IRecipeDisplayerInformationScreen {
-    void showRecipeInformation(final String recipeName,
+    void showRecipeInformation(final String pathImage,
+                               final String recipeName,
                                final String recipeDescription,
                                final String recipeTime,
                                final String recipeNumberOfPerson,

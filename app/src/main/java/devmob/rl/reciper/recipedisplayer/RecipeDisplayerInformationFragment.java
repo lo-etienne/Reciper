@@ -1,5 +1,6 @@
 package devmob.rl.reciper.recipedisplayer;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,8 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.UUID;
 
 import devmob.rl.reciper.R;
@@ -25,6 +28,7 @@ public class RecipeDisplayerInformationFragment extends Fragment implements IRec
     private RecipeDisplayerInformationPresenter recipeDisplayerInformationPresenter;
     private UUID recipeId;
 
+    private ImageView recipeImage;
     private TextView recipeName;
     private TextView recipeDescription;
     private TextView recipeTime;
@@ -53,6 +57,7 @@ public class RecipeDisplayerInformationFragment extends Fragment implements IRec
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_displayer_information, container, false);
+        this.recipeImage = view.findViewById(R.id.recipe_image);
         this.recipeName = view.findViewById(R.id.recipe_name);
         this.recipeDescription = view.findViewById(R.id.recipe_description);
         this.recipeTime = view.findViewById(R.id.timer_value);
@@ -61,6 +66,7 @@ public class RecipeDisplayerInformationFragment extends Fragment implements IRec
         this.recipeDifficulty = view.findViewById(R.id.difficulty_value);
         this.recipeNote = view.findViewById(R.id.note_value);
         this.recipeComment = view.findViewById(R.id.comment_value);
+
         return view;
     }
 
@@ -72,7 +78,8 @@ public class RecipeDisplayerInformationFragment extends Fragment implements IRec
     }
 
     @Override
-    public void showRecipeInformation(String recipeName, String recipeDescription, String recipeTime, String recipeNumberOfPerson, String recipePrice, String recipeDifficulty, String recipeNote, String recipeComment) {
+    public void showRecipeInformation(String pathImage, String recipeName, String recipeDescription, String recipeTime, String recipeNumberOfPerson, String recipePrice, String recipeDifficulty, String recipeNote, String recipeComment) {
+        if(pathImage != null)this.recipeImage.setImageURI(Uri.fromFile(new File(pathImage)));
         this.recipeName.setText(recipeName);
         this.recipeDescription.setText(recipeDescription);
         this.recipeTime.setText(recipeTime);
