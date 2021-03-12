@@ -1,7 +1,9 @@
 package devmob.rl.reciper.database.repository;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -155,6 +157,24 @@ public class RecipeRepository {
             @Override
             public void run() {
                 recipeDao.deleteIngredient(ingredient);
+            }
+        });
+    }
+
+    public void deleteIngredients(final UUID uuid){
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteIngredientByRecipeId(uuid);
+            }
+        });
+    }
+
+    public void deleteSteps(final UUID uuid){
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteStepByRecipeId(uuid);
             }
         });
     }

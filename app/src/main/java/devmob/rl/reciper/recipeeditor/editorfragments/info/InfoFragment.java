@@ -31,9 +31,10 @@ import java.util.Date;
 
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.recipeeditor.IFragmentPusher;
+import devmob.rl.reciper.recipeeditor.IScreen.IScreenInfo;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 
-public class InfoFragment extends Fragment implements IFragmentPusher {
+public class InfoFragment extends Fragment implements IFragmentPusher, IScreenInfo {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final String[] CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA};
     private static final int CAMERA_REQUEST_CODE = 10;
@@ -42,8 +43,9 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
     private RecipeEditorPresenter presenter;
     private final boolean newRecipe;
     private String currentPhotoPath;
+    private InfoLoader loader;
 
-    public InfoFragment(RecipeEditorPresenter presenter, boolean newRecipe){
+    public InfoFragment(final RecipeEditorPresenter presenter,final boolean newRecipe){
         this.presenter = presenter;
         this.newRecipe = newRecipe;
     }
@@ -52,6 +54,10 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recipe_editor_info_fragment, container, false);
+        if(!newRecipe){
+            presenter.setScreenInfo(this);
+            presenter.setDataInfo(presenter.getRecipeUUID());
+        }
 
         Button enableCamera = view.findViewById(R.id.button_photo);
         enableCamera.setOnClickListener(new View.OnClickListener() {
@@ -64,18 +70,16 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
                 }
             }
         });
+        this.loader = new InfoLoader(view.findViewById(R.id.nom_recette),view.findViewById(R.id.description_contenu),
+                view.findViewById(R.id.commentaire_contenu),view.findViewById(R.id.layout_difficulte),
+                view.findViewById(R.id.layout_prix),view.findViewById(R.id.picker_nb_personne),
+                view.findViewById(R.id.picker_note),view.findViewById(R.id.container));
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        NumberPicker np = (NumberPicker) view.findViewById(R.id.picker_nb_personne);
-        np.setMinValue(1);
-        np.setMaxValue(100);
-        np = (NumberPicker) view.findViewById(R.id.picker_note);
-        np.setMinValue(1);
-        np.setMaxValue(5);
-        if(!(newRecipe)) InfoLoader.loadValue(view,presenter);
+        loader.setMinMaxNumberPicker();
     }
 
     @Override
@@ -159,5 +163,10 @@ public class InfoFragment extends Fragment implements IFragmentPusher {
             Log.d("1", "onActivityResult appeler condition");
         }
         Log.d("1", "onActivityResult appeler");
+    }
+
+    @Override
+    public void update() {
+        loader.loadValue(presenter);
     }
 }

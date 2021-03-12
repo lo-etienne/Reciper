@@ -1,9 +1,11 @@
 package devmob.rl.reciper.recipedisplayer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +19,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.UUID;
 
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.RecipeEditorActivity;
 
 public class RecipeDisplayerCollectionFragment extends Fragment {
 
@@ -55,5 +58,15 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_recipe, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.edit_recipe){
+            Intent intent = new Intent(getActivity(), RecipeEditorActivity.class);
+            intent.putExtra("recipeId", recipeId.toString());
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

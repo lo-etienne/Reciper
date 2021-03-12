@@ -19,12 +19,13 @@ import android.widget.ImageButton;
 
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.recipeeditor.IFragmentPusher;
+import devmob.rl.reciper.recipeeditor.IScreen.IScreenIngredient;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 
 /**
  * A fragment representing a list of Items.
  */
-public class IngredientFragment extends Fragment implements View.OnClickListener, IIngredientList, IFragmentPusher {
+public class IngredientFragment extends Fragment implements View.OnClickListener, IIngredientList, IFragmentPusher, IScreenIngredient {
 
     public static final String TITLE = "Ingredient";
     private View view;
@@ -42,6 +43,14 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recipe_editor_ingredient_fragment, container, false);
+        if(newRecipe) {
+            presenter = new IngredientPresenter(this, editorPresenter);
+            presenter.loadIngredient();
+        }else{
+            presenter = new IngredientPresenter(this, editorPresenter);
+            editorPresenter.setScreenIngredient(this);
+            editorPresenter.setDataIngredient(editorPresenter.getRecipeUUID());
+        }
 
         if (view.findViewById(R.id.list_ingredient) instanceof RecyclerView) {
             Context context = view.getContext();
@@ -55,8 +64,6 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter = new IngredientPresenter(this, editorPresenter);
-        presenter.loadIngredient();
 
         ImageButton buttonAdd = (ImageButton) view.findViewById(R.id.add_ingredient);
         buttonAdd.setOnClickListener(this);
@@ -100,5 +107,10 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     public void push() {
         presenter.publish();
         Log.d("push", "passage de push dans ingredientFragment");
+    }
+
+    @Override
+    public void update() {
+        presenter.loadIngredient();
     }
 }

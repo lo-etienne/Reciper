@@ -40,6 +40,7 @@ public class IngredientPresenter implements IPublisher {
 
     public void addIngredient(String name, String quantity){
         list.add(new Ingredient(presenter.getRecipeUUID(),name,quantity));
+        Log.d("IngredientPresenter", "addIngredient");
         screen.loadView();
     }
 

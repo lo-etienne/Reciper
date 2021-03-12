@@ -23,7 +23,7 @@ public class RecipeAndIngredients {
     private List<Ingredient> ingredients;
 
     public List<Ingredient> getIngredients() {
-        System.out.println("steps called");
+        System.out.println("ingredients called");
         System.out.println(this.ingredients.size());
         return ingredients;
     }

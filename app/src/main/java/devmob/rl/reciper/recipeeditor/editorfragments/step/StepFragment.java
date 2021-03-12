@@ -18,9 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.recipeeditor.IFragmentPusher;
+import devmob.rl.reciper.recipeeditor.IScreen.IScreenStep;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 
-public class StepFragment extends Fragment implements View.OnClickListener,IStepList, IFragmentPusher {
+public class StepFragment extends Fragment implements View.OnClickListener,IStepList, IFragmentPusher, IScreenStep {
     public static final String TITLE = "Step";
     private View view;
     private StepPresenter presenter;
@@ -37,6 +38,10 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recipe_editor_step_fragment, container, false);
+        if(!newRecipe) {
+            editorPresenter.setScreenStep(this);
+            editorPresenter.setDataStep(editorPresenter.getRecipeUUID());
+        }
 
         if (view.findViewById(R.id.list_step) instanceof RecyclerView) {
             Context context = view.getContext();
@@ -44,7 +49,6 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(new StepAdapter(null));
         }
-
         return view;
     }
 
@@ -96,5 +100,10 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
     public void push() {
         presenter.publish();
         Log.d("push", "passage de push dans StepFragment");
+    }
+
+    @Override
+    public void update() {
+        presenter.loadStep();
     }
 }

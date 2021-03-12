@@ -37,6 +37,12 @@ public interface RecipeDao {
     @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
     LiveData<RecipeAndIngredients> getIngredientsByRecipeId(final UUID uuid);
 
+    @Query("DELETE FROM ingredient WHERE recipeContainerId = (:recipeId)")
+    void deleteIngredientByRecipeId(final UUID recipeId);
+
+    @Query("DELETE FROM step WHERE recipeContainerId = (:recipeId)")
+    void deleteStepByRecipeId(final UUID recipeId);
+
     // INSERT
 
     @Insert
@@ -62,6 +68,7 @@ public interface RecipeDao {
 
     @Delete
     void deleteIngredient(final Ingredient ingredient);
+
 
 
 

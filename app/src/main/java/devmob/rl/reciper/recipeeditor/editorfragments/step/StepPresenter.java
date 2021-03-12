@@ -36,12 +36,13 @@ public class StepPresenter implements IPublisher {
                 StepPresenter.this.list = ingredients;
             }
         });
-        Collections.sort(list);
+        //Collections.sort(list);
         screen.loadView();
     }
 
     public void addStep(final int num, final String description,  final int duration){
         list.add(new Step(presenter.getRecipeUUID(),num,description,duration));
+        Log.d("StepPresenter","addStep");
         Collections.sort(list);
         screen.loadView();
     }
@@ -61,10 +62,6 @@ public class StepPresenter implements IPublisher {
     @Override
     public void publish() {
         presenter.setStepList(list);
-    }
-
-    public void setList(List<Step> list) {
-        this.list = presenter.getListStep();
     }
 
     public void suppStep(UUID uuid){
