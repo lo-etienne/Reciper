@@ -45,6 +45,8 @@ public class RecipeEditorPresenter {
 
     public RecipeEditorPresenter(UUID uuid){
         this.recipeUUID = uuid;
+        listIngredient_recipe = new ArrayList<>();
+        listStep_recipe = new ArrayList<>();
         Log.d("RecipeEditorPresenter","passage interne");
     }
 
@@ -141,7 +143,8 @@ public class RecipeEditorPresenter {
         RecipeRepository.getInstance().getIngredientsByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
             @Override
             public void onChanged(RecipeAndIngredients recipeAndIngredients) {
-                RecipeEditorPresenter.this.listIngredient_recipe = recipeAndIngredients.getIngredients();
+                RecipeEditorPresenter.this.listIngredient_recipe.clear();
+                RecipeEditorPresenter.this.listIngredient_recipe.addAll(recipeAndIngredients.getIngredients());
                 screenIngredient.update();
                 Log.d("setData", "Ingredient " + listIngredient_recipe.size());
             }

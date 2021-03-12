@@ -43,14 +43,6 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recipe_editor_ingredient_fragment, container, false);
-        if(newRecipe) {
-            presenter = new IngredientPresenter(this, editorPresenter);
-            presenter.loadIngredient();
-        }else{
-            presenter = new IngredientPresenter(this, editorPresenter);
-            editorPresenter.setScreenIngredient(this);
-            editorPresenter.setDataIngredient(editorPresenter.getRecipeUUID());
-        }
 
         if (view.findViewById(R.id.list_ingredient) instanceof RecyclerView) {
             Context context = view.getContext();
@@ -64,6 +56,14 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(newRecipe) {
+            presenter = new IngredientPresenter(this, editorPresenter);
+            presenter.loadIngredient();
+        }else{
+            presenter = new IngredientPresenter(this, editorPresenter);
+            editorPresenter.setScreenIngredient(this);
+            editorPresenter.setDataIngredient(editorPresenter.getRecipeUUID());
+        }
 
         ImageButton buttonAdd = (ImageButton) view.findViewById(R.id.add_ingredient);
         buttonAdd.setOnClickListener(this);
