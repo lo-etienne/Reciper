@@ -15,13 +15,18 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.UUID;
 
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.recipeeditor.IFragmentPusher;
 import devmob.rl.reciper.recipeeditor.IScreen.IScreenStep;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
+import devmob.rl.reciper.recipeeditor.RecipeEditorViewModel;
+import devmob.rl.reciper.recipeeditor.editorfragments.ingredient.IngredientPresenter;
 
 public class StepFragment extends Fragment implements View.OnClickListener,IStepList, IFragmentPusher, IScreenStep {
     public static final String TITLE = "Step";
@@ -29,21 +34,45 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
     private StepPresenter presenter;
     private RecyclerView recyclerView;
     private RecipeEditorPresenter editorPresenter;
-    private final boolean newRecipe;
+    private boolean newRecipe;
+    private UUID uuid;
 
+    public StepFragment(){
+
+    }
     public StepFragment(RecipeEditorPresenter presenter,boolean newRecipe){
         this.editorPresenter = presenter;
         this.newRecipe = newRecipe;
+        this.uuid = editorPresenter.getRecipeUUID();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RecipeEditorViewModel viewModel = new ViewModelProvider(this).get(RecipeEditorViewModel.class);
+        if(viewModel.getId() == null && viewModel.getPresenter() == null){
+            viewModel.setId(uuid);
+            viewModel.setPresenter(editorPresenter);
+        }else{
+            editorPresenter = viewModel.getPresenter();
+            newRecipe = editorPresenter.isNewRecipe();
+        }
+
+        if(newRecipe) {
+            presenter = new StepPresenter(this, editorPresenter);
+            presenter.loadStep();
+        }else{
+            presenter = new StepPresenter(this, editorPresenter);
+            editorPresenter.setScreenStep(this);
+            editorPresenter.setDataStep();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recipe_editor_step_fragment, container, false);
-        if(!newRecipe) {
-            editorPresenter.setScreenStep(this);
-            editorPresenter.setDataStep(editorPresenter.getRecipeUUID());
-        }
+
 
         if (view.findViewById(R.id.list_step) instanceof RecyclerView) {
             Context context = view.getContext();
@@ -55,9 +84,13 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.publish();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        presenter = new StepPresenter(this, editorPresenter);
-        presenter.loadStep();
         ImageButton buttonAdd = (ImageButton) view.findViewById(R.id.add_step);
         buttonAdd.setOnClickListener(this);
     }

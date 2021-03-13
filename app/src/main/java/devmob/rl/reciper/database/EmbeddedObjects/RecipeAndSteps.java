@@ -22,8 +22,6 @@ public class RecipeAndSteps {
     private List<Step> steps;
 
     public List<Step> getSteps() {
-        System.out.println("steps called");
-        System.out.println(this.steps.size());
         return steps;
     }
 

@@ -23,4 +23,5 @@
     <string name="validation">validation</string>
     <string name="numero_step">numero</string>
     <string name="note">Une note de 1 a 5</string>
+    <string name="favorite_recipe_menu">Favoris</string>
 </resources>

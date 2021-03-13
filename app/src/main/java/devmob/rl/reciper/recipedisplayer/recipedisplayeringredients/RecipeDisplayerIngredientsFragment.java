@@ -1,11 +1,11 @@
-package devmob.rl.reciper.recipedisplayer;
+package devmob.rl.reciper.recipedisplayer.recipedisplayeringredients;
 
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import java.util.UUID;
 
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.recipedisplayer.RecipeDisplayerViewModel;
 
 /**
  * A fragment representing a list of Items.
@@ -55,8 +56,14 @@ public class RecipeDisplayerIngredientsFragment extends Fragment implements IRec
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RecipeDisplayerViewModel viewModel = new ViewModelProvider(this).get(RecipeDisplayerViewModel.class);
+        if(viewModel.getRecipeId() == null) {
+            viewModel.setRecipeId(recipeId);
+        } else {
+            recipeId = viewModel.getRecipeId();
+        }
         recipeDisplayerIngredientsPresenter = new RecipeDisplayerIngredientsPresenter(recipeId, this);
         recipeDisplayerIngredientsPresenter.loadIngredients();
     }

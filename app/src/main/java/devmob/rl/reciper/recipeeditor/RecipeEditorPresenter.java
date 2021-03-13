@@ -2,6 +2,7 @@ package devmob.rl.reciper.recipeeditor;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class RecipeEditorPresenter {
     private String commentary_recipe;
     private String image;
 
+    private boolean newRecipe;
+
     private List<Ingredient> listIngredient_recipe;
     private List<Step> listStep_recipe;
 
@@ -41,18 +44,18 @@ public class RecipeEditorPresenter {
     private final IRepository dataBase;
 
     public RecipeEditorPresenter(IRepository dataBase){
-        this(dataBase, UUID.randomUUID());
-        listIngredient_recipe = new ArrayList<>();
-        listStep_recipe = new ArrayList<>();
+        this(dataBase, UUID.randomUUID(),true);
     }
 
-    public RecipeEditorPresenter(IRepository dataBase, UUID uuid){
+    public RecipeEditorPresenter(IRepository dataBase, UUID uuid, final boolean newRecipe){
         this.dataBase = dataBase;
         this.recipeUUID = uuid;
         listIngredient_recipe = new ArrayList<>();
         listStep_recipe = new ArrayList<>();
+        this.newRecipe = newRecipe;
     }
 
+    public boolean isNewRecipe(){ return this.newRecipe; }
     public void setScreenInfo(IScreenInfo screenInfo) { this.screenInfo = screenInfo; }
     public void setScreenIngredient(IScreenIngredient screenIngredient) { this.screenIngredient = screenIngredient; }
     public void setScreenStep(IScreenStep screenStep) { this.screenStep = screenStep; }
@@ -83,7 +86,9 @@ public class RecipeEditorPresenter {
         description_recipe = description.equals("") ? description_recipe = "Description par defaut" : description;
         commentary_recipe = commentary.equals("") ? commentary_recipe = "Commentaire par defaut" : commentary;
         this.note = note;
-        this.image = image;
+        if(image != null){
+            this.image = image;
+        }
     }
 
     public void setIngredientList(final List<Ingredient> listIngredient){ listIngredient_recipe = listIngredient; }
@@ -129,10 +134,10 @@ public class RecipeEditorPresenter {
 
     /**
      * permet de recupere de la BD les information de infoFragment d'une recette qui est present sur la BD
-     * @param uuid identifiant de la recette
      */
-    public void setDataInfo(UUID uuid){
-        dataBase.getRecipe(uuid).observeForever(new Observer<Recipe>() {
+    public void setDataInfo(){
+        final LiveData<Recipe> recipeLiveData = dataBase.getRecipe(recipeUUID);
+        recipeLiveData.observeForever(new Observer<Recipe>() {
             @Override
             public void onChanged(Recipe recipe) {
                 RecipeEditorPresenter.this.name_recipe = recipe.getName();
@@ -145,16 +150,16 @@ public class RecipeEditorPresenter {
                 RecipeEditorPresenter.this.image = recipe.getIllustrationUrl();
                 screenInfo.update();
                 Log.d("setData", "Info " + name_recipe);
+                recipeLiveData.removeObserver(this);
             }
         });
     }
 
     /**
      * permet de recupere de la BD la list des ingredients pour IngredientFragment d'une recette qui est present sur la BD
-     * @param uuid identifiant de la recette
      */
-    public void setDataIngredient(UUID uuid){
-        dataBase.getIngredientsByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
+    public void setDataIngredient(){
+        dataBase.getIngredientsByRecipeId(recipeUUID).observeForever(new Observer<RecipeAndIngredients>() {
             @Override
             public void onChanged(RecipeAndIngredients recipeAndIngredients) {
                 RecipeEditorPresenter.this.listIngredient_recipe.clear();
@@ -167,10 +172,9 @@ public class RecipeEditorPresenter {
 
     /**
      * permet de recupere de la BD a list des etapes pour StepFragment d'une recette qui est present sur la BD
-     * @param uuid identifiant de la recette
      */
-    public void setDataStep(UUID uuid){
-        dataBase.getStepsByRecipeId(uuid).observeForever(new Observer<RecipeAndSteps>() {
+    public void setDataStep(){
+        dataBase.getStepsByRecipeId(recipeUUID).observeForever(new Observer<RecipeAndSteps>() {
             @Override
             public void onChanged(RecipeAndSteps recipeAndSteps) {
                 RecipeEditorPresenter.this.listStep_recipe.clear();

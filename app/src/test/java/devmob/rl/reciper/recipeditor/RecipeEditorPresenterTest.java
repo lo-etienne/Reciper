@@ -71,7 +71,7 @@ public class RecipeEditorPresenterTest {
 
         UUID uuidRecipe = UUID.randomUUID();
 
-        presenter = new RecipeEditorPresenter(repository, uuidRecipe);
+        presenter = new RecipeEditorPresenter(repository, uuidRecipe,false);
 
         assertEquals(uuidRecipe, presenter.getRecipeUUID());
 

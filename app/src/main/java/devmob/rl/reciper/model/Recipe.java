@@ -31,27 +31,9 @@ public class Recipe {
 
     private boolean isFavorite;
 
-    /*
-     * Constructeur recette pour des test
-     */
-    public Recipe() {
-        recipeId = UUID.randomUUID();
-        name = "Nom de la recette";
-        description = "Ceci est une description";
-        difficulty = "difficile";
-        duration = 300;
-        numberOfPersons = 10;
-        note = 2;
-        price = "cher";
-        comment = "Ceci est un commentaire";
-        illustrationUrl = "";
-        isFavorite = false;
-    }
-
-    @Ignore
-    public Recipe(final UUID uuid, final String name, final String description, final String difficulty, final String price, final int numberOfPersons, final int note,
+    public Recipe(final UUID recipeId, final String name, final String description, final String difficulty, final String price, final int numberOfPersons, final int note,
                   final String comment, final int duration, final String illustrationUrl){
-        this.recipeId = uuid;
+        this.recipeId = recipeId;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;

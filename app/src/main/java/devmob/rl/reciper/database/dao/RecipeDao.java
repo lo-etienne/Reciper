@@ -23,7 +23,7 @@ public abstract class RecipeDao {
 
     // SELECT
 
-    @Query("SELECT * FROM recipe")
+    @Query("SELECT * FROM recipe ORDER BY isFavorite DESC")
     public abstract LiveData<List<Recipe>> getRecipes();
 
     @Query("SELECT * FROM recipe WHERE recipeId = (:uuid)")
@@ -42,6 +42,18 @@ public abstract class RecipeDao {
 
     @Query("DELETE FROM step WHERE recipeContainerId = (:recipeId)")
     public abstract void deleteStepByRecipeId(final UUID recipeId);
+
+    @Query("UPDATE recipe SET isFavorite = :isFavorite WHERE recipeId = (:uuid)")
+    public abstract void updateRecipeFavoriteStatut(final boolean isFavorite, final UUID uuid);
+
+    @Query("DELETE FROM step WHERE recipeContainerId = (:uuid)")
+    public abstract void deleteStepsByRecipeId(final UUID uuid);
+
+    @Query("DELETE FROM ingredient WHERE recipeContainerId = (:uuid)")
+    public abstract void deleteIngredientsByRecipeId(final UUID uuid);
+
+    @Query("DELETE FROM recipe WHERE recipeId = (:uuid)")
+    public abstract void deleteRecipeById(final UUID uuid);
 
     // INSERT
 
@@ -68,6 +80,13 @@ public abstract class RecipeDao {
 
     @Delete
     public abstract void deleteIngredient(final Ingredient ingredient);
+
+    @Transaction
+    public void deleteElementsAndRecipe(final UUID uuid) {
+        deleteIngredientsByRecipeId(uuid);
+        deleteStepsByRecipeId(uuid);
+        deleteRecipeById(uuid);
+    }
 
     @Transaction
     public void updateElementForRecipe(final UUID uuid, final List<Ingredient> listIngredient, final List<Step> listStep){

@@ -15,8 +15,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,15 +27,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.recipeeditor.IFragmentPusher;
 import devmob.rl.reciper.recipeeditor.IScreen.IScreenInfo;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
+import devmob.rl.reciper.recipeeditor.RecipeEditorViewModel;
 
 public class InfoFragment extends Fragment implements IFragmentPusher, IScreenInfo {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -41,23 +47,52 @@ public class InfoFragment extends Fragment implements IFragmentPusher, IScreenIn
     public static final String TITLE = "Information";
     private View view;
     private RecipeEditorPresenter presenter;
-    private final boolean newRecipe;
+    private boolean newRecipe;
     private String currentPhotoPath;
     private InfoLoader loader;
+    private UUID uuid;
 
+    public InfoFragment(){
+
+    }
     public InfoFragment(final RecipeEditorPresenter presenter,final boolean newRecipe){
         this.presenter = presenter;
         this.newRecipe = newRecipe;
+        this.uuid = presenter.getRecipeUUID();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RecipeEditorViewModel viewModel = new ViewModelProvider(this).get(RecipeEditorViewModel.class);
+        if(viewModel.getId() == null && viewModel.getPresenter() == null){
+            viewModel.setId(uuid);
+            viewModel.setPresenter(presenter);
+        }else{
+            uuid = viewModel.getId();
+            presenter = viewModel.getPresenter();
+            newRecipe = presenter.isNewRecipe();
+        }
+        if(!newRecipe){
+            presenter.setScreenInfo(this);
+            presenter.setDataInfo();
+        }
+        view = getView();
+        this.loader = new InfoLoader((EditText) view.findViewById(R.id.nom_recette),
+                (EditText) view.findViewById(R.id.description_contenu),
+                (EditText) view.findViewById(R.id.commentaire_contenu),
+                (RadioGroup) view.findViewById(R.id.layout_difficulte),
+                (RadioGroup) view.findViewById(R.id.layout_prix),
+                (NumberPicker) view.findViewById(R.id.picker_nb_personne),
+                (NumberPicker) view.findViewById(R.id.picker_note),
+                (ImageView) view.findViewById(R.id.container));
+        loader.setMinMaxNumberPicker();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.recipe_editor_info_fragment, container, false);
-        if(!newRecipe){
-            presenter.setScreenInfo(this);
-            presenter.setDataInfo(presenter.getRecipeUUID());
-        }
 
         Button enableCamera = view.findViewById(R.id.button_photo);
         enableCamera.setOnClickListener(new View.OnClickListener() {
@@ -70,16 +105,13 @@ public class InfoFragment extends Fragment implements IFragmentPusher, IScreenIn
                 }
             }
         });
-        this.loader = new InfoLoader(view.findViewById(R.id.nom_recette),view.findViewById(R.id.description_contenu),
-                view.findViewById(R.id.commentaire_contenu),view.findViewById(R.id.layout_difficulte),
-                view.findViewById(R.id.layout_prix),view.findViewById(R.id.picker_nb_personne),
-                view.findViewById(R.id.picker_note),view.findViewById(R.id.container));
         return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        loader.setMinMaxNumberPicker();
+    public void onDestroy() {
+        super.onDestroy();
+        push();
     }
 
     @Override

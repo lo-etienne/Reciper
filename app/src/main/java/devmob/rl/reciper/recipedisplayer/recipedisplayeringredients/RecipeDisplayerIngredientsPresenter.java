@@ -1,4 +1,4 @@
-package devmob.rl.reciper.recipedisplayer;
+package devmob.rl.reciper.recipedisplayer.recipedisplayeringredients;
 
 import androidx.lifecycle.Observer;
 
@@ -26,9 +26,11 @@ public class RecipeDisplayerIngredientsPresenter {
         RecipeRepository.getInstance().getIngredientsByRecipeId(recipeId).observeForever(new Observer<RecipeAndIngredients>() {
             @Override
             public void onChanged(RecipeAndIngredients recipeAndIngredients) {
-                RecipeDisplayerIngredientsPresenter.this.ingredientList = recipeAndIngredients.getIngredients();
-                Collections.reverse(RecipeDisplayerIngredientsPresenter.this.ingredientList);
-                screen.loadView();
+                if(recipeAndIngredients != null) {
+                    RecipeDisplayerIngredientsPresenter.this.ingredientList = recipeAndIngredients.getIngredients();
+                    Collections.reverse(RecipeDisplayerIngredientsPresenter.this.ingredientList);
+                    screen.loadView();
+                }
             }
         });
     }
