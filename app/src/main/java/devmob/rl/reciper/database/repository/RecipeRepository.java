@@ -142,11 +142,29 @@ public class RecipeRepository implements IRepository{
         });
     }
 
+    public void updateRecipeFavoriteStatut(final boolean isFavorite, final UUID recipeId) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.updateRecipeFavoriteStatut(isFavorite, recipeId);
+            }
+        });
+    }
+
     public void deleteRecipe(final Recipe recipe) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 recipeDao.deleteRecipe(recipe);
+            }
+        });
+    }
+
+    public void deleteRecipeById(final UUID uuid) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteRecipeById(uuid);
             }
         });
     }
@@ -169,20 +187,20 @@ public class RecipeRepository implements IRepository{
         });
     }
 
-    public void deleteIngredients(final UUID uuid){
+    public void deleteStepsByRecipeId(final UUID uuid) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                recipeDao.deleteIngredientByRecipeId(uuid);
+                recipeDao.deleteStepsByRecipeId(uuid);
             }
         });
     }
 
-    public void deleteSteps(final UUID uuid){
+    public void deleteIngredientsByRecipeId(final UUID uuid) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                recipeDao.deleteStepByRecipeId(uuid);
+                recipeDao.deleteIngredientsByRecipeId(uuid);
             }
         });
     }

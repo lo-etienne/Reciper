@@ -1,5 +1,8 @@
 package devmob.rl.reciper.recipedisplayer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +18,15 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 import java.util.UUID;
 
+import devmob.rl.reciper.MainActivity;
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.RecipeEditorActivity;
+import devmob.rl.reciper.database.repository.RecipeRepository;
+import devmob.rl.reciper.model.Recipe;
 
 public class RecipeDisplayerCollectionFragment extends Fragment {
 
@@ -62,11 +69,47 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.share_recipe) {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra("recipe", new Gson().toJson(new Recipe()));
+            startActivity(shareIntent);
+            return true;
+        }
         if(item.getItemId() == R.id.edit_recipe){
             Intent intent = new Intent(getActivity(), RecipeEditorActivity.class);
             intent.putExtra("recipeId", recipeId.toString());
             startActivity(intent);
         }
-        return super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.delete_recipe) {
+            initDeleteRecipe(recipeId);
+            return true;
+        }
+        return onOptionsItemSelected(item);
+    }
+
+    private void initDeleteRecipe(final UUID uuid) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setCancelable(true);
+        builder.setTitle("Supprimer ?");
+        builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                RecipeRepository.getInstance().deleteStepsByRecipeId(uuid);
+                RecipeRepository.getInstance().deleteIngredientsByRecipeId(uuid);
+                RecipeRepository.getInstance().deleteRecipeById(uuid);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
