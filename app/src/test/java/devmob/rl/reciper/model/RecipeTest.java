@@ -9,24 +9,10 @@ import static org.junit.Assert.*;
 public class RecipeTest {
 
     @Test
-    public void testGet(){
-        Recipe recipe = new Recipe();
-
-        assertEquals("Nom de la recette", recipe.getName());
-        assertEquals("Ceci est une description", recipe.getDescription());
-        assertEquals("difficile", recipe.getDifficulty());
-        assertEquals(300, recipe.getDuration());
-        assertEquals(10, recipe.getNumberOfPersons());
-        assertEquals(2, recipe.getNote());
-        assertEquals("cher", recipe.getPrice());
-        assertEquals("Ceci est un commentaire", recipe.getComment());
-        assertEquals("", recipe.getIllustrationUrl());
-        assertFalse(recipe.isFavorite());
-    }
-
-    @Test
     public void testSet(){
-        Recipe recipe = new Recipe();
+        UUID uuid = UUID.randomUUID();
+        Recipe recipe = new Recipe(uuid, "name", "description", "moyen",
+                "cher", 4 , 3, "Comment", 45, "illustration");
 
         UUID uuidRecipe = recipe.getRecipeId();
         recipe.setRecipeId(UUID.randomUUID());
