@@ -26,6 +26,9 @@ public class IngredientPresenter implements IPublisher {
         this.presenter = presenter;
     }
 
+    /**
+     * permet d'observer la list de l'editor presenter
+     */
     public void loadIngredient() {
         Log.d("IngredientListPresenter", "loadIngredient");
         LiveData<List<Ingredient>> ingredient = new LiveData<List<Ingredient>>(presenter.getListIngredient()) {};
@@ -38,17 +41,31 @@ public class IngredientPresenter implements IPublisher {
         screen.loadView();
     }
 
+    /**
+     * permet de creer et d'ajouter un ingredient dans la list
+     * @param name le nom de l'ingredient
+     * @param quantity la quantite de l'ingredient
+     */
     public void addIngredient(String name, String quantity){
         list.add(new Ingredient(presenter.getRecipeUUID(),name,quantity));
         Log.d("IngredientPresenter", "addIngredient");
         screen.loadView();
     }
 
+    /**
+     * permet d'afficher un element de la list sur l'ecran
+     * @param holder le screen qui va afficher l'element
+     * @param position la position dans la list de l'element
+     */
     public void showIngredientOn(IIngredientItemScreen holder, final int position) {
         Ingredient ingredient = list.get(position);
         holder.showIngredient(ingredient);
     }
 
+    /**
+     * avoir la taille de la list ou une valeur de 0 si elle n'est pas initialiser
+     * @return
+     */
     public int getItemCount() {
         if(list == null) {
             return 0;
@@ -56,11 +73,18 @@ public class IngredientPresenter implements IPublisher {
         return list.size();
     }
 
+    /**
+     * permet de publier au presenter la list
+     */
     @Override
     public void publish() {
         presenter.setIngredientList(list);
     }
 
+    /**
+     * suppremer un element de la list
+     * @param uuid element a supprimer
+     */
     public void suppIngredient(UUID uuid){
         Ingredient i = null;
         for (Ingredient ingredient:list) {

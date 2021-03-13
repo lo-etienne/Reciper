@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import java.util.UUID;
 
+import devmob.rl.reciper.database.repository.RecipeRepository;
 import devmob.rl.reciper.recipeeditor.RecipeCollectionEditorFragment;
 
 public class RecipeEditorActivity extends AppCompatActivity {
@@ -23,9 +24,9 @@ public class RecipeEditorActivity extends AppCompatActivity {
         if(currentFragment == null) {
             if(getIntent().hasExtra("recipeId")){
                 Log.d("tag", "uuid " + retrieveUuid().toString());
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_editor, RecipeCollectionEditorFragment.newInstance(retrieveUuid())).commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_editor, RecipeCollectionEditorFragment.newInstance(RecipeRepository.getInstance(),retrieveUuid())).commit();
             }else{
-                getSupportFragmentManager().beginTransaction().add(R.id.fragment_editor, RecipeCollectionEditorFragment.newInstance()).commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_editor, RecipeCollectionEditorFragment.newInstance(RecipeRepository.getInstance())).commit();
             }
         }
 
