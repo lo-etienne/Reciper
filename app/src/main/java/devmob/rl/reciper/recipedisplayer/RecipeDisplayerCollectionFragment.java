@@ -3,7 +3,6 @@ package devmob.rl.reciper.recipedisplayer;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 
 import java.util.UUID;
 
@@ -27,7 +25,6 @@ import devmob.rl.reciper.MainActivity;
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.RecipeEditorActivity;
 import devmob.rl.reciper.database.repository.RecipeRepository;
-import devmob.rl.reciper.model.Recipe;
 
 public class RecipeDisplayerCollectionFragment extends Fragment {
 

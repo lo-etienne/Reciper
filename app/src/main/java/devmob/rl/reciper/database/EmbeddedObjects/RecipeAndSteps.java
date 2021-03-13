@@ -4,7 +4,6 @@ import androidx.room.Embedded;
 import androidx.room.Relation;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import devmob.rl.reciper.model.Recipe;
 import devmob.rl.reciper.model.Step;
