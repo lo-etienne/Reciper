@@ -14,6 +14,7 @@ import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -62,19 +63,29 @@ public class RecipeCollectionEditorFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RecipeEditorViewModel viewModel = new ViewModelProvider(this).get(RecipeEditorViewModel.class);
+        if(viewModel.getId() == null){
+            viewModel.setId(recipeUUID);
+            viewModel.setPresenter(presenter);
+        }else{
+            recipeUUID = viewModel.getId();
+            presenter = viewModel.getPresenter();
+            newRecipe = presenter.isNewRecipe();
+        }
+        TabLayout tab = getView().findViewById(R.id.tab_layout);
+        collection = new RecipeCollectionEditorPagerAdapter(getChildFragmentManager(),presenter,newRecipe);
+        viewPager = getView().findViewById(R.id.pager);
+        viewPager.setAdapter(collection);
+        tab.setupWithViewPager(this.viewPager);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.recipe_editor_fragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        TabLayout tab = view.findViewById(R.id.tab_layout);
-        collection = new RecipeCollectionEditorPagerAdapter(getChildFragmentManager(),presenter,newRecipe);
-        viewPager = view.findViewById(R.id.pager);
-        viewPager.setAdapter(collection);
-        tab.setupWithViewPager(this.viewPager);
     }
 
     @Override
