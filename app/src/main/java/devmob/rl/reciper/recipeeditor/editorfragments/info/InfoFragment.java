@@ -75,7 +75,7 @@ public class InfoFragment extends Fragment implements IFragmentPusher, IScreenIn
         }
         if(!newRecipe){
             presenter.setScreenInfo(this);
-            presenter.setDataInfo(presenter.getRecipeUUID());
+            presenter.setDataInfo();
         }
         view = getView();
         this.loader = new InfoLoader((EditText) view.findViewById(R.id.nom_recette),

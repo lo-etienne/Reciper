@@ -134,10 +134,9 @@ public class RecipeEditorPresenter {
 
     /**
      * permet de recupere de la BD les information de infoFragment d'une recette qui est present sur la BD
-     * @param uuid identifiant de la recette
      */
-    public void setDataInfo(UUID uuid){
-        final LiveData<Recipe> recipeLiveData = dataBase.getRecipe(uuid);
+    public void setDataInfo(){
+        final LiveData<Recipe> recipeLiveData = dataBase.getRecipe(recipeUUID);
         recipeLiveData.observeForever(new Observer<Recipe>() {
             @Override
             public void onChanged(Recipe recipe) {
@@ -158,10 +157,9 @@ public class RecipeEditorPresenter {
 
     /**
      * permet de recupere de la BD la list des ingredients pour IngredientFragment d'une recette qui est present sur la BD
-     * @param uuid identifiant de la recette
      */
-    public void setDataIngredient(UUID uuid){
-        dataBase.getIngredientsByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
+    public void setDataIngredient(){
+        dataBase.getIngredientsByRecipeId(recipeUUID).observeForever(new Observer<RecipeAndIngredients>() {
             @Override
             public void onChanged(RecipeAndIngredients recipeAndIngredients) {
                 RecipeEditorPresenter.this.listIngredient_recipe.clear();
@@ -174,10 +172,9 @@ public class RecipeEditorPresenter {
 
     /**
      * permet de recupere de la BD a list des etapes pour StepFragment d'une recette qui est present sur la BD
-     * @param uuid identifiant de la recette
      */
-    public void setDataStep(UUID uuid){
-        dataBase.getStepsByRecipeId(uuid).observeForever(new Observer<RecipeAndSteps>() {
+    public void setDataStep(){
+        dataBase.getStepsByRecipeId(recipeUUID).observeForever(new Observer<RecipeAndSteps>() {
             @Override
             public void onChanged(RecipeAndSteps recipeAndSteps) {
                 RecipeEditorPresenter.this.listStep_recipe.clear();

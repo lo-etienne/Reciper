@@ -64,7 +64,7 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
         }else{
             presenter = new StepPresenter(this, editorPresenter);
             editorPresenter.setScreenStep(this);
-            editorPresenter.setDataStep(editorPresenter.getRecipeUUID());
+            editorPresenter.setDataStep();
         }
     }
 

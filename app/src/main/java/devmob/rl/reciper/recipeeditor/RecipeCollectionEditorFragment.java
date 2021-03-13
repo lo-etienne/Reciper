@@ -33,7 +33,7 @@ public class RecipeCollectionEditorFragment extends Fragment {
     private UUID recipeUUID;
 
     public static RecipeCollectionEditorFragment newInstance(RecipeRepository dataBase) {
-        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(dataBase, UUID.randomUUID());
+        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(dataBase, null);
         return fragment;
     }
     public static RecipeCollectionEditorFragment newInstance(RecipeRepository dataBase, UUID uuid) {

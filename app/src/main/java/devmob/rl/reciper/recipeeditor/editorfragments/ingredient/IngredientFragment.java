@@ -71,7 +71,7 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
         }else{
             presenter = new IngredientPresenter(this, editorPresenter);
             editorPresenter.setScreenIngredient(this);
-            editorPresenter.setDataIngredient(editorPresenter.getRecipeUUID());
+            editorPresenter.setDataIngredient();
         }
     }
 
