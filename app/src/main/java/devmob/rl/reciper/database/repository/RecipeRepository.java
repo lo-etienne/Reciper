@@ -214,6 +214,16 @@ public class RecipeRepository implements IRepository{
             }
         });
     }
+
+    @Override
+    public void deleteElementsAndRecipe(final UUID uuid) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.deleteElementsAndRecipe(uuid);
+            }
+        });
+    }
 }
 
 

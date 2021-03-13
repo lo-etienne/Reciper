@@ -17,6 +17,7 @@ public interface IRepository {
     void insertIngredient(final Ingredient ingredient);
     void updateRecipe(final Recipe recipe);
     void updateElementForRecipe(final UUID uuid, final List<Ingredient> listIngredient, final List<Step> listStep);
+    void deleteElementsAndRecipe(final UUID uuid);
     LiveData<List<Recipe>> getRecipes();
     LiveData<Recipe> getRecipe(final UUID uuid);
     LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid);

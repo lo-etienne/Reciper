@@ -15,8 +15,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -70,10 +73,14 @@ public class InfoFragment extends Fragment implements IFragmentPusher, IScreenIn
                 }
             }
         });
-        this.loader = new InfoLoader(view.findViewById(R.id.nom_recette),view.findViewById(R.id.description_contenu),
-                view.findViewById(R.id.commentaire_contenu),view.findViewById(R.id.layout_difficulte),
-                view.findViewById(R.id.layout_prix),view.findViewById(R.id.picker_nb_personne),
-                view.findViewById(R.id.picker_note),view.findViewById(R.id.container));
+        this.loader = new InfoLoader((EditText) view.findViewById(R.id.nom_recette),
+                (EditText) view.findViewById(R.id.description_contenu),
+                (EditText) view.findViewById(R.id.commentaire_contenu),
+                (RadioGroup) view.findViewById(R.id.layout_difficulte),
+                (RadioGroup) view.findViewById(R.id.layout_prix),
+                (NumberPicker) view.findViewById(R.id.picker_nb_personne),
+                (NumberPicker) view.findViewById(R.id.picker_note),
+                (ImageView) view.findViewById(R.id.container));
         return view;
     }
 

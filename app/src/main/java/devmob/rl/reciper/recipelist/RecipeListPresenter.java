@@ -39,16 +39,6 @@ public class RecipeListPresenter {
     }
 
     /**
-     * Méthode qui permet d'ajouter une recette à la DB
-     * @return
-     */
-    public UUID addRecipe() {
-        Recipe recipe = new Recipe();
-        RecipeRepository.getInstance().insertRecipe(recipe);
-        return recipe.getRecipeId();
-    }
-
-    /**
      * Méthode qui permet d'afficher la recette à une position donnée
      * @param holder interface IRecipItemScreen
      * @param position position de la recette dans la liste

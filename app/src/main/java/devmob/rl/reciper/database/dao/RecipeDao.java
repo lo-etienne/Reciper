@@ -82,6 +82,13 @@ public abstract class RecipeDao {
     public abstract void deleteIngredient(final Ingredient ingredient);
 
     @Transaction
+    public void deleteElementsAndRecipe(final UUID uuid) {
+        deleteIngredientsByRecipeId(uuid);
+        deleteStepsByRecipeId(uuid);
+        deleteRecipeById(uuid);
+    }
+
+    @Transaction
     public void updateElementForRecipe(final UUID uuid, final List<Ingredient> listIngredient, final List<Step> listStep){
         deleteIngredientByRecipeId(uuid);
         deleteStepByRecipeId(uuid);

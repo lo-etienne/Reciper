@@ -2,6 +2,7 @@ package devmob.rl.reciper.recipeeditor;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
@@ -132,7 +133,8 @@ public class RecipeEditorPresenter {
      * @param uuid identifiant de la recette
      */
     public void setDataInfo(UUID uuid){
-        dataBase.getRecipe(uuid).observeForever(new Observer<Recipe>() {
+        final LiveData<Recipe> recipeLiveData = dataBase.getRecipe(uuid);
+        recipeLiveData.observeForever(new Observer<Recipe>() {
             @Override
             public void onChanged(Recipe recipe) {
                 RecipeEditorPresenter.this.name_recipe = recipe.getName();
@@ -145,6 +147,7 @@ public class RecipeEditorPresenter {
                 RecipeEditorPresenter.this.image = recipe.getIllustrationUrl();
                 screenInfo.update();
                 Log.d("setData", "Info " + name_recipe);
+                recipeLiveData.removeObserver(this);
             }
         });
     }

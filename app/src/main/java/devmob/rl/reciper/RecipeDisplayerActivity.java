@@ -17,9 +17,9 @@ public class RecipeDisplayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipedisplayer);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.displayer_fragment_container);
         if(currentFragment == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, RecipeDisplayerCollectionFragment.newInstance(retrieveUuid())).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.displayer_fragment_container, RecipeDisplayerCollectionFragment.newInstance(retrieveUuid())).commit();
         }
     }
 

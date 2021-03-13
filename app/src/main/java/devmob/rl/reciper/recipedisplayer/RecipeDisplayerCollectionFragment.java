@@ -69,6 +69,7 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        /*
         if(item.getItemId() == R.id.share_recipe) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
@@ -77,6 +78,7 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
             startActivity(shareIntent);
             return true;
         }
+         */
         if(item.getItemId() == R.id.edit_recipe){
             Intent intent = new Intent(getActivity(), RecipeEditorActivity.class);
             intent.putExtra("recipeId", recipeId.toString());
@@ -84,9 +86,8 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
         }
         if(item.getItemId() == R.id.delete_recipe) {
             initDeleteRecipe(recipeId);
-            return true;
         }
-        return onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     private void initDeleteRecipe(final UUID uuid) {
@@ -96,9 +97,7 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
         builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                RecipeRepository.getInstance().deleteStepsByRecipeId(uuid);
-                RecipeRepository.getInstance().deleteIngredientsByRecipeId(uuid);
-                RecipeRepository.getInstance().deleteRecipeById(uuid);
+                RecipeRepository.getInstance().deleteElementsAndRecipe(uuid);
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
