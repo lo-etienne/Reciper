@@ -29,10 +29,11 @@ public class RecipeCollectionEditorFragment extends Fragment {
     private RecipeCollectionEditorPagerAdapter collection;
     private ViewPager viewPager;
     private RecipeEditorPresenter presenter;
-    private final boolean newRecipe;
+    private boolean newRecipe;
+    private UUID recipeUUID;
 
     public static RecipeCollectionEditorFragment newInstance(RecipeRepository dataBase) {
-        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(dataBase);
+        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(dataBase, UUID.randomUUID());
         return fragment;
     }
     public static RecipeCollectionEditorFragment newInstance(RecipeRepository dataBase, UUID uuid) {
@@ -41,13 +42,18 @@ public class RecipeCollectionEditorFragment extends Fragment {
         return fragment;
     }
 
-    public RecipeCollectionEditorFragment(RecipeRepository dataBase){
-        newRecipe = true;
-        presenter = new RecipeEditorPresenter(dataBase);
+    public RecipeCollectionEditorFragment(){
+
     }
     public RecipeCollectionEditorFragment(RecipeRepository dataBase, UUID uuid){
-        newRecipe = false;
-        presenter = new RecipeEditorPresenter(dataBase, uuid);
+        if(uuid == null){
+            this.recipeUUID = UUID.randomUUID();
+            newRecipe = true;
+        }else{
+            this.recipeUUID = uuid;
+            newRecipe = false;
+        }
+        presenter = new RecipeEditorPresenter(dataBase, recipeUUID, newRecipe);
     }
 
     @Override

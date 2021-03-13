@@ -32,6 +32,8 @@ public class RecipeEditorPresenter {
     private String commentary_recipe;
     private String image;
 
+    private boolean newRecipe;
+
     private List<Ingredient> listIngredient_recipe;
     private List<Step> listStep_recipe;
 
@@ -42,18 +44,18 @@ public class RecipeEditorPresenter {
     private final IRepository dataBase;
 
     public RecipeEditorPresenter(IRepository dataBase){
-        this(dataBase, UUID.randomUUID());
-        listIngredient_recipe = new ArrayList<>();
-        listStep_recipe = new ArrayList<>();
+        this(dataBase, UUID.randomUUID(),true);
     }
 
-    public RecipeEditorPresenter(IRepository dataBase, UUID uuid){
+    public RecipeEditorPresenter(IRepository dataBase, UUID uuid, final boolean newRecipe){
         this.dataBase = dataBase;
         this.recipeUUID = uuid;
         listIngredient_recipe = new ArrayList<>();
         listStep_recipe = new ArrayList<>();
+        this.newRecipe = newRecipe;
     }
 
+    public boolean isNewRecipe(){ return this.newRecipe; }
     public void setScreenInfo(IScreenInfo screenInfo) { this.screenInfo = screenInfo; }
     public void setScreenIngredient(IScreenIngredient screenIngredient) { this.screenIngredient = screenIngredient; }
     public void setScreenStep(IScreenStep screenStep) { this.screenStep = screenStep; }
@@ -84,7 +86,9 @@ public class RecipeEditorPresenter {
         description_recipe = description.equals("") ? description_recipe = "Description par defaut" : description;
         commentary_recipe = commentary.equals("") ? commentary_recipe = "Commentaire par defaut" : commentary;
         this.note = note;
-        this.image = image;
+        if(image != null){
+            this.image = image;
+        }
     }
 
     public void setIngredientList(final List<Ingredient> listIngredient){ listIngredient_recipe = listIngredient; }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,10 +19,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import java.util.UUID;
+
 import devmob.rl.reciper.R;
 import devmob.rl.reciper.recipeeditor.IFragmentPusher;
 import devmob.rl.reciper.recipeeditor.IScreen.IScreenIngredient;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
+import devmob.rl.reciper.recipeeditor.RecipeEditorViewModel;
 
 /**
  * A fragment representing a list of Items.
@@ -33,14 +37,42 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     private IngredientPresenter presenter;
     private RecyclerView recyclerView;
     private RecipeEditorPresenter editorPresenter;
-    private final boolean newRecipe;
+    private boolean newRecipe;
     private ImageButton buttonAdd;
     private EditText editIngredient;
     private EditText editQuantity;
+    private UUID uuid;
+
+    public IngredientFragment(){
+
+    }
 
     public IngredientFragment(final RecipeEditorPresenter presenter,final boolean newRecipe){
         this.editorPresenter = presenter;
         this.newRecipe = newRecipe;
+        this.uuid = editorPresenter.getRecipeUUID();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RecipeEditorViewModel viewModel = new ViewModelProvider(this).get(RecipeEditorViewModel.class);
+        if(viewModel.getId() == null && viewModel.getPresenter() == null){
+            viewModel.setId(uuid);
+            viewModel.setPresenter(editorPresenter);
+        }else{
+            editorPresenter = viewModel.getPresenter();
+            newRecipe = editorPresenter.isNewRecipe();
+        }
+
+        if(newRecipe) {
+            presenter = new IngredientPresenter(this, editorPresenter);
+            presenter.loadIngredient();
+        }else{
+            presenter = new IngredientPresenter(this, editorPresenter);
+            editorPresenter.setScreenIngredient(this);
+            editorPresenter.setDataIngredient(editorPresenter.getRecipeUUID());
+        }
     }
 
     @Override
@@ -60,14 +92,6 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(newRecipe) {
-            presenter = new IngredientPresenter(this, editorPresenter);
-            presenter.loadIngredient();
-        }else{
-            presenter = new IngredientPresenter(this, editorPresenter);
-            editorPresenter.setScreenIngredient(this);
-            editorPresenter.setDataIngredient(editorPresenter.getRecipeUUID());
-        }
 
         buttonAdd = (ImageButton) view.findViewById(R.id.add_ingredient);
         buttonAdd.setOnClickListener(this);
@@ -77,6 +101,12 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
 
         editQuantity = (EditText) view.findViewById(R.id.ingredient_field_quantite);
         editQuantity.setOnClickListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.publish();
     }
 
     @Override

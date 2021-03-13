@@ -78,6 +78,5 @@ public class RecipeCollectionEditorPagerAdapter extends FragmentStatePagerAdapte
         for (IFragmentPusher fragmentPusher:list) {
             fragmentPusher.push();
         }
-        Log.d("log size", list.size() + "");
     }
 }
