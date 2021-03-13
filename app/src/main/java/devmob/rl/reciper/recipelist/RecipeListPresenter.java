@@ -45,7 +45,7 @@ public class RecipeListPresenter {
      */
     public void showRecipeOn(IRecipeItemScreen holder, final int position) {
         Recipe recipe = recipeList.get(position);
-        holder.showRecipe(recipe.getRecipeId(), recipe.getName());
+        holder.showRecipe(recipe.getRecipeId(), recipe.getIllustrationUrl(), recipe.getName(), recipe.getDuration(), recipe.getNumberOfPersons());
     }
 
     /**

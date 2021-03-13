@@ -1,4 +1,4 @@
-package devmob.rl.reciper.recipedisplayer;
+package devmob.rl.reciper.recipedisplayer.recipedisplayerinformation;
 
 public interface IRecipeDisplayerInformationScreen {
     void showRecipeInformation(final String pathImage,

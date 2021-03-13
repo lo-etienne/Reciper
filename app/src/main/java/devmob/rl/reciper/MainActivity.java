@@ -12,22 +12,14 @@ import java.util.UUID;
 
 import devmob.rl.reciper.recipelist.RecipeListFragment;
 
+/**
+ *  Cette classe correspond à l'activité principale de l'application
+ */
 public class MainActivity extends AppCompatActivity implements RecipeListFragment.ISelectRecipe{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*
-        Recipe recipe = new Recipe();
-        recipe.setName("Poulet au paprika");
-        recipe.setNumberOfPersons(10);
-        recipe.setDescription("Poulet au paprika avec pommes de terre et brocolis");
-        Recipe recipe2 = new Recipe();
-        recipe2.setName("Avocat fourré au saumon");
-        recipe2.setNumberOfPersons(5);
-        recipe2.setDescription("Avocat fourré au saumon avec de la semoule");
-        RecipeRepository.getInstance().insertRecipe(recipe);
-        RecipeRepository.getInstance().insertRecipe(recipe2);
-         */
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -38,9 +30,9 @@ public class MainActivity extends AppCompatActivity implements RecipeListFragmen
     }
 
     /**
-     * Méthode qui permet de switch d'activité
+     * Méthode qui permet de lancer l'activité qui permet d'afficher une recette grâce à son id
      */
-    private void swicthActivities(final UUID recipeId) {
+    private void launchRecipeDisplayerActivity(final UUID recipeId) {
         Intent switchActivityIntent = new Intent(this, RecipeDisplayerActivity.class);
         switchActivityIntent.putExtra("recipeId", recipeId.toString());
         startActivity(switchActivityIntent);
@@ -57,6 +49,6 @@ public class MainActivity extends AppCompatActivity implements RecipeListFragmen
 
     @Override
     public void onSelectedRecipe(UUID recipeId) {
-        swicthActivities(recipeId);
+        launchRecipeDisplayerActivity(recipeId);
     }
 }

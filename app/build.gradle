@@ -1,11 +1,21 @@
 apply plugin: 'com.android.application'
 
+allprojects {
+
+    configurations.all {
+        resolutionStrategy.force 'org.objenesis:objenesis:2.6'
+    }
+
+}
+
 android {
+
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "devmob.rl.reciper"
+        multiDexEnabled true
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

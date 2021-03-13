@@ -31,6 +31,9 @@ public class RecipeCollectionEditorFragment extends Fragment {
     private RecipeEditorPresenter presenter;
     private final boolean newRecipe;
 
+    private UUID recipeId;
+    private RecipeRepository database;
+
     public static RecipeCollectionEditorFragment newInstance(RecipeRepository dataBase) {
         RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(dataBase);
         return fragment;
@@ -46,6 +49,8 @@ public class RecipeCollectionEditorFragment extends Fragment {
         presenter = new RecipeEditorPresenter(dataBase);
     }
     public RecipeCollectionEditorFragment(RecipeRepository dataBase, UUID uuid){
+        this.recipeId = uuid;
+        this.database = dataBase;
         newRecipe = false;
         presenter = new RecipeEditorPresenter(dataBase, uuid);
     }

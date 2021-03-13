@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -34,6 +35,11 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
     private ViewPager viewPager;
     private UUID recipeId;
 
+    /**
+     * Méthode qui permet de créer une instance de RecipeDisplayerCollection
+     * @param uuid id de la recette qui doit être affichée
+     * @return une instance d'un objet RecipeDisplayerCollectionFragment
+     */
     public static RecipeDisplayerCollectionFragment newInstance(final UUID uuid) {
         RecipeDisplayerCollectionFragment recipeDisplayerCollectionFragment = new RecipeDisplayerCollectionFragment();
         recipeDisplayerCollectionFragment.recipeId = uuid;
@@ -50,6 +56,17 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.recipe_displayer_view_pager,container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        RecipeDisplayerViewModel viewModel = new ViewModelProvider(this).get(RecipeDisplayerViewModel.class);
+        if(viewModel.getRecipeId() == null) {
+            viewModel.setRecipeId(recipeId);
+        } else {
+            recipeId = viewModel.getRecipeId();
+        }
     }
 
     @Override
@@ -90,6 +107,12 @@ public class RecipeDisplayerCollectionFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Méthode qui, exécutée par la méthode {@link android.app.Activity::onOptionsItemSelected}, permet d'initialiser la suppression d'une recette.
+     * Une confirmation sera demandée à l'utilisateur, si il appuie sur Non ou s'il quitte la fenêtre de dialogue sans répondre alors la recette ne sera pas supprimée.
+     * S'il appuie sur Oui, alors la recette sera supprimée grâce à la méthode {@link RecipeRepository::deleteElementsAndRecipe}
+     * @param uuid id de la recette à supprimer
+     */
     private void initDeleteRecipe(final UUID uuid) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
         builder.setCancelable(true);

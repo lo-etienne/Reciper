@@ -8,6 +8,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.UUID;
 
+import devmob.rl.reciper.recipedisplayer.recipedisplayerinformation.RecipeDisplayerInformationFragment;
+import devmob.rl.reciper.recipedisplayer.recipedisplayeringredients.RecipeDisplayerIngredientsFragment;
+import devmob.rl.reciper.recipedisplayer.recipedisplayersteps.RecipeDisplayerStepsFragment;
+
 public class RecipeDisplayerPagerAdapter extends FragmentStatePagerAdapter {
 
     private final UUID recipeId;

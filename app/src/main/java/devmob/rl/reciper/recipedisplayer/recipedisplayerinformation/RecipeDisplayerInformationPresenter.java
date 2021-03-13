@@ -1,4 +1,4 @@
-package devmob.rl.reciper.recipedisplayer;
+package devmob.rl.reciper.recipedisplayer.recipedisplayerinformation;
 
 import androidx.lifecycle.Observer;
 
