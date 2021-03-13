@@ -28,7 +28,6 @@ public class Step implements Comparable<Step>{
     public UUID getUuid() {
         return uuid;
     }
-
     public void setUuid(@NonNull final UUID uuid) {
         this.uuid = uuid;
     }

@@ -1,6 +1,8 @@
 package devmob.rl.reciper.recipeeditor.editorfragments.ingredient;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -33,6 +34,9 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
     private RecyclerView recyclerView;
     private RecipeEditorPresenter editorPresenter;
     private final boolean newRecipe;
+    private ImageButton buttonAdd;
+    private EditText editIngredient;
+    private EditText editQuantity;
 
     public IngredientFragment(final RecipeEditorPresenter presenter,final boolean newRecipe){
         this.editorPresenter = presenter;
@@ -65,42 +69,43 @@ public class IngredientFragment extends Fragment implements View.OnClickListener
             editorPresenter.setDataIngredient(editorPresenter.getRecipeUUID());
         }
 
-        ImageButton buttonAdd = (ImageButton) view.findViewById(R.id.add_ingredient);
+        buttonAdd = (ImageButton) view.findViewById(R.id.add_ingredient);
         buttonAdd.setOnClickListener(this);
 
-        EditText editIngredient = (EditText) view.findViewById(R.id.ingredient_field_name);
+        editIngredient = (EditText) view.findViewById(R.id.ingredient_field_name);
         editIngredient.setOnClickListener(this);
 
-        EditText editQuantity = (EditText) view.findViewById(R.id.ingredient_field_quantite);
+        editQuantity = (EditText) view.findViewById(R.id.ingredient_field_quantite);
         editQuantity.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.add_ingredient) {//extraire et mettre dans une variable le contenue de l'edit text
-            EditText ed = (EditText) view.findViewById(R.id.ingredient_field_name);
-            String ingredient = ed.getText().toString();
+        if (v.getId() == buttonAdd.getId()) {//extraire et mettre dans une variable le contenue de l'edit text
 
-            ed = (EditText) view.findViewById(R.id.ingredient_field_quantite);
-            String quantity = ed.getText().toString();
+            String ingredient = editIngredient.getText().toString();
+            String quantity = editQuantity.getText().toString();
 
-            presenter.addIngredient(ingredient, quantity);
-            Log.d("1", "addIngredient du presenter appele du onClick");
+            if(ingredient.equals("") || quantity.equals("")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Un ou plusieur champ(s) sont vide veillez bien remplire les champs")
+                        .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {}
+                        });
+                builder.create().show();
+            }else{
+                presenter.addIngredient(ingredient, quantity);
+                editIngredient.setText("");
+                editQuantity.setText("");
+                Log.d("IngredientFragment", "addIngredient");
+            }
+
         }
     }
 
     @Override
     public void loadView() {
         recyclerView.setAdapter(new IngredientAdapter(presenter));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.validation_button){
-            presenter.publish();
-            Log.d("1", "passage ds onOptionsItemSelected ingredientFragment");
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

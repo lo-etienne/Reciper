@@ -17,7 +17,7 @@ import devmob.rl.reciper.model.Ingredient;
 import devmob.rl.reciper.model.Recipe;
 import devmob.rl.reciper.model.Step;
 
-public class RecipeRepository {
+public class RecipeRepository implements IRepository{
 
     public static RecipeRepository instance;
 
@@ -52,6 +52,7 @@ public class RecipeRepository {
      *
      * @return un objet LiveData
      */
+    @Override
     public LiveData<List<Recipe>> getRecipes() {
         return recipeDao.getRecipes();
     }
@@ -62,6 +63,7 @@ public class RecipeRepository {
      * @param uuid objet UUID qui correspond à l'id de la recette à sortir de la DB
      * @return un objet depuis la DB dont l'id = uuid
      */
+    @Override
     public LiveData<Recipe> getRecipe(final UUID uuid) {
         return recipeDao.getRecipe(uuid);
     }
@@ -73,6 +75,7 @@ public class RecipeRepository {
      * @param uuid
      * @return
      */
+    @Override
     public LiveData<RecipeAndSteps> getStepsByRecipeId(final UUID uuid) {
         return recipeDao.getStepsByRecipeId(uuid);
     }
@@ -84,6 +87,7 @@ public class RecipeRepository {
      * @param uuid
      * @return
      */
+    @Override
     public LiveData<RecipeAndIngredients> getIngredientsByRecipeId(final UUID uuid) {
         return recipeDao.getIngredientsByRecipeId(uuid);
     }
@@ -93,6 +97,7 @@ public class RecipeRepository {
      *
      * @param recipe objet Recipe à insérer dans la DB
      */
+    @Override
     public void insertRecipe(final Recipe recipe) {
         executor.execute(new Runnable() {
             @Override
@@ -102,6 +107,7 @@ public class RecipeRepository {
         });
     }
 
+    @Override
     public void insertStep(final Step step) {
         executor.execute(new Runnable() {
             @Override
@@ -111,6 +117,7 @@ public class RecipeRepository {
         });
     }
 
+    @Override
     public void insertIngredient(final Ingredient ingredient) {
         executor.execute(new Runnable() {
             @Override
@@ -125,6 +132,7 @@ public class RecipeRepository {
      *
      * @param recipe objet Recipe à update dans la DB
      */
+    @Override
     public void updateRecipe(final Recipe recipe) {
         executor.execute(new Runnable() {
             @Override
@@ -175,6 +183,16 @@ public class RecipeRepository {
             @Override
             public void run() {
                 recipeDao.deleteStepByRecipeId(uuid);
+            }
+        });
+    }
+
+    @Override
+    public void updateElementForRecipe(final UUID uuid, final List<Ingredient> listIngredient, final List<Step> listStep){
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.updateElementForRecipe(uuid,listIngredient,listStep);
             }
         });
     }

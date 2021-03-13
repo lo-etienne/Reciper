@@ -1,6 +1,8 @@
 package devmob.rl.reciper.recipeeditor.editorfragments.step;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,23 +69,29 @@ public class StepFragment extends Fragment implements View.OnClickListener,IStep
 
     @Override
     public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.add_step :
-                EditText ed;
+        if (v.getId() == R.id.add_step) {
+            EditText edNumero_step = (EditText) view.findViewById(R.id.numero_step);
+            EditText edStep_description = (EditText) view.findViewById(R.id.step_description);
+            EditText edStep_duration = (EditText) view.findViewById(R.id.step_duration);
 
-                ed = (EditText) view.findViewById(R.id.numero_step);
-                int num = Integer.parseInt(ed.getText().toString());
+            int num = Integer.parseInt(edNumero_step.getText().toString());
+            String description = edStep_description.getText().toString();
+            int duration = Integer.parseInt(edStep_duration.getText().toString());
 
-                ed = (EditText) view.findViewById(R.id.step_description);
-                String description = ed.getText().toString();
-
-                ed = (EditText) view.findViewById(R.id.step_duration);
-                int duration = Integer.parseInt(ed.getText().toString());
-
+            if(num < 0 || description.equals("") || duration < 0){
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Un ou plusieur champ(s) sont vide veillez bien remplire les champs")
+                        .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {}
+                        });
+                builder.create().show();
+            }else{
                 presenter.addStep(num, description, duration);
-                Log.d("1","Passage de addStep dans StepFragment");
-                break;
+                edNumero_step.setText("");
+                edStep_description.setText("");
+                edStep_duration.setText("");
+            }
+            Log.d("1", "Passage de addStep dans StepFragment");
         }
     }
 

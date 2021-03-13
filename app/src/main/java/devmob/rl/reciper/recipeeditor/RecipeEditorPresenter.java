@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndIngredients;
 import devmob.rl.reciper.database.EmbeddedObjects.RecipeAndSteps;
+import devmob.rl.reciper.database.repository.IRepository;
 import devmob.rl.reciper.database.repository.RecipeRepository;
 import devmob.rl.reciper.model.Ingredient;
 import devmob.rl.reciper.model.Recipe;
@@ -37,17 +38,19 @@ public class RecipeEditorPresenter {
     private IScreenIngredient screenIngredient;
     private IScreenStep screenStep;
 
-    public RecipeEditorPresenter(){
-        this.recipeUUID = UUID.randomUUID();
+    private final IRepository dataBase;
+
+    public RecipeEditorPresenter(IRepository dataBase){
+        this(dataBase, UUID.randomUUID());
         listIngredient_recipe = new ArrayList<>();
         listStep_recipe = new ArrayList<>();
     }
 
-    public RecipeEditorPresenter(UUID uuid){
+    public RecipeEditorPresenter(IRepository dataBase, UUID uuid){
+        this.dataBase = dataBase;
         this.recipeUUID = uuid;
         listIngredient_recipe = new ArrayList<>();
         listStep_recipe = new ArrayList<>();
-        Log.d("RecipeEditorPresenter","passage interne");
     }
 
     public void setScreenInfo(IScreenInfo screenInfo) { this.screenInfo = screenInfo; }
@@ -69,6 +72,9 @@ public class RecipeEditorPresenter {
     public List<Step> getListStep(){ return this.listStep_recipe; }
     public List<Ingredient> getListIngredient(){ return this.listIngredient_recipe; }
 
+    /**
+     * permet de set les valeur present de le fragment info
+     */
     public void setInfoFragment(final String name, final String difficulty, final String price, final int nbPeople, final String description, final String commentary, final int note, final String image){
         name_recipe = name.equals("") ? name_recipe = "Nom par defaut" : name;
         difficulty_recipe = difficulty;
@@ -85,31 +91,30 @@ public class RecipeEditorPresenter {
         listStep_recipe = listStep;
     }
 
+    /**
+     * permet de creer une recette et de la mettre dans la base de donne
+     */
     public void createRecipe(){
         Recipe recipe = new Recipe(recipeUUID, name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration(),image);
-        RecipeRepository.getInstance().insertRecipe(recipe);
-        insertListDB();
-        Log.d("1","passage createRecipe");
+        dataBase.insertRecipe(recipe);
+        dataBase.updateElementForRecipe(recipeUUID, listIngredient_recipe, listStep_recipe);
+        Log.d("RecipeEditorPresenter","passage createRecipe");
     }
 
+    /**
+     * permet de update une recette et de mettre a jour ces element dans la BD
+     */
     public void updateData(){
         Recipe recipe = new Recipe(recipeUUID, name_recipe, description_recipe, difficulty_recipe, price_recipe, nbPeople_recipe, note, commentary_recipe, getDuration(),image);
-        RecipeRepository.getInstance().updateRecipe(recipe);
-        RecipeRepository.getInstance().deleteIngredients(getRecipeUUID());
-        RecipeRepository.getInstance().deleteSteps(getRecipeUUID());
-        insertListDB();
-        Log.d("1","passage updateData");
+        dataBase.updateRecipe(recipe);
+        dataBase.updateElementForRecipe(recipeUUID, listIngredient_recipe, listStep_recipe);
+        Log.d("RecipeEditorPresenter","passage updateData");
     }
 
-    private void insertListDB(){
-        for (Ingredient ingredient : listIngredient_recipe) {
-            RecipeRepository.getInstance().insertIngredient(ingredient);
-        }
-        for (Step step : listStep_recipe) {
-            RecipeRepository.getInstance().insertStep(step);
-        }
-    }
-
+    /**
+     * permet d'avoir la duree d'une recette en fonction de ces etapes
+     * @return int representant la durre en min
+     */
     private int getDuration() {
         int duration = 0;
         if(listStep_recipe == null){
@@ -122,8 +127,12 @@ public class RecipeEditorPresenter {
         return duration;
     }
 
+    /**
+     * permet de recupere de la BD les information de infoFragment d'une recette qui est present sur la BD
+     * @param uuid identifiant de la recette
+     */
     public void setDataInfo(UUID uuid){
-        RecipeRepository.getInstance().getRecipe(uuid).observeForever(new Observer<Recipe>() {
+        dataBase.getRecipe(uuid).observeForever(new Observer<Recipe>() {
             @Override
             public void onChanged(Recipe recipe) {
                 RecipeEditorPresenter.this.name_recipe = recipe.getName();
@@ -140,8 +149,12 @@ public class RecipeEditorPresenter {
         });
     }
 
+    /**
+     * permet de recupere de la BD la list des ingredients pour IngredientFragment d'une recette qui est present sur la BD
+     * @param uuid identifiant de la recette
+     */
     public void setDataIngredient(UUID uuid){
-        RecipeRepository.getInstance().getIngredientsByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
+        dataBase.getIngredientsByRecipeId(uuid).observeForever(new Observer<RecipeAndIngredients>() {
             @Override
             public void onChanged(RecipeAndIngredients recipeAndIngredients) {
                 RecipeEditorPresenter.this.listIngredient_recipe.clear();
@@ -152,8 +165,12 @@ public class RecipeEditorPresenter {
         });
     }
 
+    /**
+     * permet de recupere de la BD a list des etapes pour StepFragment d'une recette qui est present sur la BD
+     * @param uuid identifiant de la recette
+     */
     public void setDataStep(UUID uuid){
-        RecipeRepository.getInstance().getStepsByRecipeId(uuid).observeForever(new Observer<RecipeAndSteps>() {
+        dataBase.getStepsByRecipeId(uuid).observeForever(new Observer<RecipeAndSteps>() {
             @Override
             public void onChanged(RecipeAndSteps recipeAndSteps) {
                 RecipeEditorPresenter.this.listStep_recipe.clear();

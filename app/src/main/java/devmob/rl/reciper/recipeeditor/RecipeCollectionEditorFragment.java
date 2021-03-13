@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import devmob.rl.reciper.MainActivity;
 import devmob.rl.reciper.R;
+import devmob.rl.reciper.database.repository.RecipeRepository;
 
 public class RecipeCollectionEditorFragment extends Fragment {
 
@@ -30,23 +31,23 @@ public class RecipeCollectionEditorFragment extends Fragment {
     private RecipeEditorPresenter presenter;
     private final boolean newRecipe;
 
-    public static RecipeCollectionEditorFragment newInstance() {
-        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment();
+    public static RecipeCollectionEditorFragment newInstance(RecipeRepository dataBase) {
+        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(dataBase);
         return fragment;
     }
-    public static RecipeCollectionEditorFragment newInstance(UUID uuid) {
+    public static RecipeCollectionEditorFragment newInstance(RecipeRepository dataBase, UUID uuid) {
         Log.d("RecipeCollectionEditor", "newInstance");
-        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(uuid);
+        RecipeCollectionEditorFragment fragment = new RecipeCollectionEditorFragment(dataBase,uuid);
         return fragment;
     }
 
-    public RecipeCollectionEditorFragment(){
+    public RecipeCollectionEditorFragment(RecipeRepository dataBase){
         newRecipe = true;
-        presenter = new RecipeEditorPresenter();
+        presenter = new RecipeEditorPresenter(dataBase);
     }
-    public RecipeCollectionEditorFragment(UUID uuid){
+    public RecipeCollectionEditorFragment(RecipeRepository dataBase, UUID uuid){
         newRecipe = false;
-        presenter = new RecipeEditorPresenter(uuid);
+        presenter = new RecipeEditorPresenter(dataBase, uuid);
     }
 
     @Override

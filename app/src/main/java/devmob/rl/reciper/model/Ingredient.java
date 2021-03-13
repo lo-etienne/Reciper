@@ -27,7 +27,6 @@ public class Ingredient {
     public UUID getUuid() {
         return uuid;
     }
-
     public void setUuid(@NonNull final UUID uuid) {
         this.uuid = uuid;
     }
@@ -35,15 +34,11 @@ public class Ingredient {
     public UUID getRecipeContainerId() {
         return recipeContainerId;
     }
-
-    public void setRecipeContainerId(UUID recipeContainerId) {
-        this.recipeContainerId = recipeContainerId;
-    }
+    public void setRecipeContainerId(UUID recipeContainerId) { this.recipeContainerId = recipeContainerId; }
 
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -51,7 +46,6 @@ public class Ingredient {
     public String getQuantity() {
         return quantity;
     }
-
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
