@@ -126,23 +126,4 @@ public class  RecipeListFragment extends Fragment implements IRecipeListScreen {
         inflater.inflate(R.menu.fragment_recipe_list, menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.new_recipe) {
-            UUID id = recipeListPresenter.addRecipe();
-            Step step = new Step(id,1,"Ceci est une description", 10);
-            Step step1 = new Step(id,2,"Ceci est une autre description", 20);
-            Ingredient ingredient = new Ingredient(id, "Poulet", "400g");
-            Ingredient ingredient1 = new Ingredient(id, "Boeuf", "200g");
-            Ingredient ingredient2 = new Ingredient(id, "Lapin", "1kg");
-            RecipeRepository.getInstance().insertStep(step);
-            RecipeRepository.getInstance().insertStep(step1);
-            RecipeRepository.getInstance().insertIngredient(ingredient);
-            RecipeRepository.getInstance().insertIngredient(ingredient1);
-            RecipeRepository.getInstance().insertIngredient(ingredient2);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
 }
