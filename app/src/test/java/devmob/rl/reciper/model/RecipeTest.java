@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class RecipeTest {
 
-    /*
+    
     @Test
     public void testSet(){
         UUID uuid = UUID.randomUUID();
@@ -44,7 +44,7 @@ public class RecipeTest {
         assertTrue(recipe.isFavorite());
     }
 
-     */
+     
 
     @Test
     public void testConstructeurSpecial(){
