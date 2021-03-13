@@ -1,4 +1,4 @@
-package devmob.rl.reciper.recipedisplayer;
+package devmob.rl.reciper.recipedisplayer.recipedisplayeringredients;
 
 import androidx.recyclerview.widget.RecyclerView;
 
