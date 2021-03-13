@@ -26,7 +26,6 @@ import devmob.rl.reciper.recipeeditor.IFragmentPusher;
 import devmob.rl.reciper.recipeeditor.IScreen.IScreenStep;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
 import devmob.rl.reciper.recipeeditor.RecipeEditorViewModel;
-import devmob.rl.reciper.recipeeditor.editorfragments.ingredient.IngredientPresenter;
 
 public class StepFragment extends Fragment implements View.OnClickListener,IStepList, IFragmentPusher, IScreenStep {
     public static final String TITLE = "Step";

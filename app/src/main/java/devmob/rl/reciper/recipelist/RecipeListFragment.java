@@ -1,8 +1,13 @@
 package devmob.rl.reciper.recipelist;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,20 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.UUID;
 
 import devmob.rl.reciper.R;
-import devmob.rl.reciper.database.repository.RecipeRepository;
-import devmob.rl.reciper.model.Ingredient;
-import devmob.rl.reciper.model.Step;
 
 /**
  * A fragment representing a list of Items.

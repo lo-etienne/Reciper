@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.lifecycle.Observer;
 
 import java.util.List;
-import java.util.UUID;
 
 import devmob.rl.reciper.database.repository.RecipeRepository;
 import devmob.rl.reciper.model.Recipe;

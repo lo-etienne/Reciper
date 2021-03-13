@@ -1,7 +1,6 @@
 package devmob.rl.reciper.recipeeditor.editorfragments.info;
 
 import android.net.Uri;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;

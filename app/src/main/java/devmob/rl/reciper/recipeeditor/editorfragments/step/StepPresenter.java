@@ -10,10 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import devmob.rl.reciper.model.Ingredient;
 import devmob.rl.reciper.model.Step;
-import devmob.rl.reciper.recipeeditor.editorfragments.IPublisher;
 import devmob.rl.reciper.recipeeditor.RecipeEditorPresenter;
+import devmob.rl.reciper.recipeeditor.editorfragments.IPublisher;
 
 public class StepPresenter implements IPublisher {
 
